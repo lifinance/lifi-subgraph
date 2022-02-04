@@ -26,7 +26,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
   // store additional information
   lifiTransfer.timestamp = event.params.timestamp
-  lifiTransfer.gasUsed = event.transaction.gasUsed
+  lifiTransfer.gasLimit = event.transaction.gasLimit
   lifiTransfer.gasPrice = event.transaction.gasPrice
   lifiTransfer.sender = event.transaction.from
   lifiTransfer.transactionHash = event.transaction.hash

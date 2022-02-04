@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
@@ -11,7 +11,7 @@ dataSources:
       startBlock: {{startBlock}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - LiFiTransferStarted
@@ -38,4 +38,31 @@ dataSources:
         # - event: NXTPBridgeStarted(indexed bytes32,bytes32,(address,address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256))
         # - event: OwnershipTransferred(indexed address,indexed address)
         # - event: OwnershipTransferred(indexed address,indexed address)
+      # callHandlers:
+        # - function: changeBiconomyRouter(address)
+        # - function: changeWormholeRouter(address)
+        # - function: completeBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),address,address,uint256)
+        # - function: diamondCut((address,uint8,bytes4[])[],address,bytes)
+        # - function: initBiconomy(address)
+        # - function: initCbridge(address,uint64)
+        # - function: initHop(string[],(address,address,address)[],uint256)
+        # - function: initNXTP(address)
+        # - function: initWormhole(address)
+        # - function: startBridgeTokensGeneric((bytes32,string,address,address,address,address,uint256,uint256),(uint256,address,address,bytes))
+        # - function: startBridgeTokensViaAnyswap((bytes32,string,address,address,address,address,uint256,uint256),(address,address,uint256,address,uint256))
+        # - function: startBridgeTokensViaBiconomy((bytes32,string,address,address,address,address,uint256,uint256),(address,uint256,address,uint256))
+        # - function: startBridgeTokensViaCBridge((bytes32,string,address,address,address,address,uint256,uint256),(address,address,uint256,uint64,uint64,uint32))
+        # - function: startBridgeTokensViaHop((bytes32,string,address,address,address,address,uint256,uint256),(string,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256))
+        # - function: startBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),((address,address,address,address,address,address,address,address,address,uint256,uint256,bytes32,bytes32),uint256,uint256,bytes,bytes,bytes,bytes))
+        # - function: startBridgeTokensViaWormhole((bytes32,string,address,address,address,address,uint256,uint256),(address,uint256,address,uint16,uint32))
+        # - function: swapAndCompleteBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],address,address)
+        # - function: swapAndStartBridgeTokensGeneric((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(uint256,address,address,bytes))
+        # - function: swapAndStartBridgeTokensViaAnyswap((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,address,uint256,address,uint256))
+        # - function: swapAndStartBridgeTokensViaBiconomy((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,uint256,address,uint256))
+        # - function: swapAndStartBridgeTokensViaCBridge((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,address,uint256,uint64,uint64,uint32))
+        # - function: swapAndStartBridgeTokensViaHop((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(string,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256))
+        # - function: swapAndStartBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],((address,address,address,address,address,address,address,address,address,uint256,uint256,bytes32,bytes32),uint256,uint256,bytes,bytes,bytes,bytes))
+        # - function: swapAndStartBridgeTokensViaWormhole((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,uint256,address,uint16,uint32))
+        # - function: transferOwnership(address)
+        # - function: withdraw(address,address,uint256)
       file: ./src/mapping.ts

@@ -2,27 +2,33 @@
   "name": "lifi-graph",
   "license": "UNLICENSED",
   "scripts": {
+    "prepare": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy  --product hosted-service maxklenk/lifi-pol",
+    "develop": "yarn prepare && yarn codegen && yarn build && yarn deploy",
+
     "create-local": "graph create --node http://localhost:8020/ maxklenk/lifi-pol",
     "remove-local": "graph remove --node http://localhost:8020/ maxklenk/lifi-pol",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 maxklenk/lifi-pol",
-    "prepare:xdai:prod": "mustache config/xdai.prod.json subgraph.template.yaml > subgraph.yaml",
+    
+    "prepare:dai:prod": "mustache config/dai.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:bsc:prod": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:fantom:prod": "mustache config/fantom.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:matic:prod": "mustache config/matic.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:arbitrum-one:prod": "mustache config/arbitrum-one.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ftm:prod": "mustache config/ftm.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:pol:prod": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:arb:prod": "mustache config/arb.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
-    "deploy:xdai:prod": "yarn prepare:xdai:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-dai",
+    
+    "deploy:dai:prod": "yarn prepare:dai:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-dai",
     "deploy:bsc:prod": "yarn prepare:bsc:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-bsc",
-    "deploy:fantom:prod": "yarn prepare:fantom:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-ftm",
-    "deploy:matic:prod": "yarn prepare:matic:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-pol",
-    "deploy:arbitrum-one:prod": "yarn prepare:arbitrum-one:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-arb"
+    "deploy:ftm:prod": "yarn prepare:ftm:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-ftm",
+    "deploy:pol:prod": "yarn prepare:pol:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-pol",
+    "deploy:arb:prod": "yarn prepare:arb:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-arb"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.21.1",
-    "@graphprotocol/graph-ts": "0.20.0",
-    "matchstick-as": "^0.1.5"
+    "@graphprotocol/graph-cli": "0.26.0",
+    "@graphprotocol/graph-ts": "0.24.1",
+    "matchstick-as": "0.3.0",
+    "mustache": "^4.2.0"
   }
 }
