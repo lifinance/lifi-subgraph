@@ -4,6 +4,31 @@ type AssetBalance @entity {
   router: Router!
 }
 
+type LiFiTransfer @entity {
+  id: ID!
+  integrator: String!
+  referrer: Bytes!
+  sendingAssetId: Bytes!
+  receivingAssetId: Bytes!
+  receiver: Bytes!
+  amount: BigInt!
+  destinationChainId: BigInt!
+  timestamp: BigInt!
+}
+
+
+# emit LiFiTransferStarted(
+#     _lifiData.transactionId,
+#     _lifiData.integrator,
+#     _lifiData.referrer,
+#     _lifiData.sendingAssetId,
+#     _lifiData.receivingAssetId,
+#     _lifiData.receiver,
+#     _lifiData.amount,
+#     _lifiData.destinationChainId,
+#     block.timestamp
+# );
+
 # Router represents a router and its associated liquidity
 type Router @entity {
   id: ID!

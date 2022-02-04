@@ -3,43 +3,30 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: TransactionManager
-    network: arbitrum-one
+    name: LiFiDiamond
+    network: goerli
     source:
-      address: "0xF293D5d599c046681AB28c1Bc7927Fff859c67A7"
-      abi: TransactionManager
-      startBlock: 244433
+      address: "0xa74D44ed9C3BB96d7676E7A274c33A05210cf35a"
+      abi: LiFiDiamond
+      startBlock: 5553469
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - AssetAdded
-        - AssetRemoved
-        - LiquidityAdded
+        - LiFiTransferStarted
+        - LiFiTransferCompleted
+        - NXTPBridgeStarted
         - LiquidityRemoved
-        - OwnershipProposed
+        - AssetSwapped
+        - DiamondCut
         - OwnershipTransferred
-        - RouterAdded
-        - RouterRemoved
-        - TransactionCancelled
-        - TransactionFulfilled
-        - TransactionPrepared
+        - LogWithdraw
       abis:
-        - name: TransactionManager
-          file: TransactionManager/abis/TransactionManager.json
+        - name: LiFiDiamond
+          file: LiFiDiamond/abis/LiFiDiamond.json
       eventHandlers:
-        - event: LiquidityAdded(indexed address,indexed address,uint256,address)
-          handler: handleLiquidityAdded
-        - event: LiquidityRemoved(indexed address,indexed address,uint256,address)
-          handler: handleLiquidityRemoved
-        - event: TransactionCancelled(indexed address,indexed address,indexed
-            bytes32,(address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256),address)
-          handler: handleTransactionCancelled
-        - event: TransactionFulfilled(indexed address,indexed address,indexed
-            bytes32,(address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256),uint256,bytes,bytes,bool,bytes,address)
-          handler: handleTransactionFulfilled
-        - event: TransactionPrepared(indexed address,indexed address,indexed
-            bytes32,(address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256),address,bytes,bytes,bytes)
-          handler: handleTransactionPrepared
-      file: TransactionManager/TransactionManager.wasm
+        - event: LiFiTransferStarted(indexed
+            bytes32,string,address,address,address,address,uint256,uint256,uint256)
+          handler: handleLiFiTransferStarted
+      file: LiFiDiamond/LiFiDiamond.wasm

@@ -4,10 +4,10 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ 0xAkshay/nxtpmatic",
-    "create-local": "graph create --node http://localhost:8020/ 0xAkshay/nxtpmatic",
-    "remove-local": "graph remove --node http://localhost:8020/ 0xAkshay/nxtpmatic",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 0xAkshay/nxtpmatic",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ 0xakshay/lifi-matic",
+    "create-local": "graph create --node http://localhost:8020/ 0xakshay/lifi-matic",
+    "remove-local": "graph remove --node http://localhost:8020/ 0xakshay/lifi-matic",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 0xakshay/lifi-matic",
     "prepare:xdai:prod": "mustache config/xdai.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:bsc:prod": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:fantom:prod": "mustache config/fantom.prod.json subgraph.template.yaml > subgraph.yaml",
@@ -28,9 +28,9 @@
     "deploy:xdai:prod": "yarn prepare:xdai:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xakshay/nxtpxdai",
     "deploy:bsc:prod": "yarn prepare:bsc:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xakshay/nxtpbsc",
     "deploy:fantom:prod": "yarn prepare:fantom:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xakshay/nxtpfantom",
-    "deploy:matic:prod": "yarn prepare:matic:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xakshay/nxtpmatic",
+    "deploy:matic:prod": "yarn prepare:matic:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xakshay/lifi-matic",
     "deploy:arbitrum-one:prod": "yarn prepare:arbitrum-one:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xakshay/nxtparbitrum",
-    "deploy:goerli:prod": "yarn prepare:goerli:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ connext/nxtp-goerli",
+    "deploy:goerli:prod": "yarn prepare:goerli:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xakshay/lifi-goerli",
     "deploy:rinkeby:prod": "yarn prepare:rinkeby:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ connext/nxtp-rinkeby",
     "deploy:kovan:prod": "yarn prepare:kovan:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ connext/nxtp-kovan",
     "deploy:mumbai:prod": "yarn prepare:mumbai:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ connext/nxtp-mumbai",
@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",
-    "@graphprotocol/graph-ts": "0.20.0"
+    "@graphprotocol/graph-ts": "0.20.0",
+    "matchstick-as": "^0.1.5"
   }
 }
