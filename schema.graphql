@@ -8,4 +8,11 @@ type LiFiTransfer @entity {
   amount: BigInt!
   destinationChainId: BigInt!
   timestamp: BigInt!
+  sender: Bytes!
+  gasUsed: BigInt!
+  gasPrice: BigInt!
+  transactionHash: Bytes!
+  bridge: String
+  hasSourceSwap: Boolean
+  # hasDestinationCall: Boolean
 }

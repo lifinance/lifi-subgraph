@@ -113,4 +113,66 @@ export class LiFiTransfer extends Entity {
   set timestamp(value: BigInt) {
     this.set("timestamp", Value.fromBigInt(value));
   }
+
+  get sender(): Bytes {
+    let value = this.get("sender");
+    return value.toBytes();
+  }
+
+  set sender(value: Bytes) {
+    this.set("sender", Value.fromBytes(value));
+  }
+
+  get gasUsed(): BigInt {
+    let value = this.get("gasUsed");
+    return value.toBigInt();
+  }
+
+  set gasUsed(value: BigInt) {
+    this.set("gasUsed", Value.fromBigInt(value));
+  }
+
+  get gasPrice(): BigInt {
+    let value = this.get("gasPrice");
+    return value.toBigInt();
+  }
+
+  set gasPrice(value: BigInt) {
+    this.set("gasPrice", Value.fromBigInt(value));
+  }
+
+  get transactionHash(): Bytes {
+    let value = this.get("transactionHash");
+    return value.toBytes();
+  }
+
+  set transactionHash(value: Bytes) {
+    this.set("transactionHash", Value.fromBytes(value));
+  }
+
+  get bridge(): string | null {
+    let value = this.get("bridge");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set bridge(value: string | null) {
+    if (value === null) {
+      this.unset("bridge");
+    } else {
+      this.set("bridge", Value.fromString(value as string));
+    }
+  }
+
+  get hasSourceSwap(): boolean {
+    let value = this.get("hasSourceSwap");
+    return value.toBoolean();
+  }
+
+  set hasSourceSwap(value: boolean) {
+    this.set("hasSourceSwap", Value.fromBoolean(value));
+  }
 }
