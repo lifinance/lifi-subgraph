@@ -7,6 +7,7 @@
     "build": "graph build",
     "deploy": "graph deploy  --product hosted-service maxklenk/lifi-pol",
     "develop": "yarn prepare && yarn codegen && yarn build && yarn deploy",
+    "test": "graph test lifi",
 
     "create-local": "graph create --node http://localhost:8020/ maxklenk/lifi-pol",
     "remove-local": "graph remove --node http://localhost:8020/ maxklenk/lifi-pol",
