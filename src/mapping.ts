@@ -36,7 +36,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   if (callSignature.startsWith('0xe18a8fdb')) {
     lifiTransfer.bridge = 'multichain'
     lifiTransfer.hasSourceSwap = false
-  } else if (callSignature.startsWith('XX')) {
+  } else if (callSignature.startsWith('0x73bbd5c6')) {
     lifiTransfer.bridge = 'multichain'
     lifiTransfer.hasSourceSwap = true
   } else if (callSignature.startsWith('0x7d7aecd3')) {
@@ -54,7 +54,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   } else if (callSignature.startsWith('0xc2c134df')) {
     lifiTransfer.bridge = 'cbridge'
     lifiTransfer.hasSourceSwap = false
-  } else if (callSignature.startsWith('XX')) {
+  } else if (callSignature.startsWith('0x01c0a31a')) {
     lifiTransfer.bridge = 'cbridge'
     lifiTransfer.hasSourceSwap = true
   }

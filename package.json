@@ -12,19 +12,27 @@
     "create-local": "graph create --node http://localhost:8020/ maxklenk/lifi-pol",
     "remove-local": "graph remove --node http://localhost:8020/ maxklenk/lifi-pol",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 maxklenk/lifi-pol",
-    
-    "prepare:dai:prod": "mustache config/dai.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:bsc:prod": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:ftm:prod": "mustache config/ftm.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:pol:prod": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:arb:prod": "mustache config/arb.prod.json subgraph.template.yaml > subgraph.yaml",
+
+    "prepare:arb": "mustache config/arb.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ava": "mustache config/ava.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:bsc": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:dai": "mustache config/dai.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:eth": "mustache config/eth.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ftm": "mustache config/ftm.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:mor": "mustache config/mor.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:opt": "mustache config/opt.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:pol": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
-    
-    "deploy:dai:prod": "yarn prepare:dai:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-dai",
-    "deploy:bsc:prod": "yarn prepare:bsc:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-bsc",
-    "deploy:ftm:prod": "yarn prepare:ftm:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-ftm",
-    "deploy:pol:prod": "yarn prepare:pol:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-pol",
-    "deploy:arb:prod": "yarn prepare:arb:prod && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-arb"
+
+    "deploy:arb": "yarn prepare:arb && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-arb",
+    "deploy:ava": "yarn prepare:ava && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-ava",
+    "deploy:bsc": "yarn prepare:bsc && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-bsc",
+    "deploy:dai": "yarn prepare:dai && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-dai",
+    "deploy:eth": "yarn prepare:eth && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-eth",
+    "deploy:ftm": "yarn prepare:ftm && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-ftm",
+    "deploy:mor": "yarn prepare:mor && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-mor",
+    "deploy:opt": "yarn prepare:opt && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-opt",
+    "deploy:pol": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-pol"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.26.0",
