@@ -1,5 +1,3 @@
-import { BigInt, dataSource } from "@graphprotocol/graph-ts";
-
 import {
   LiFiTransferStarted
 } from "../generated/LiFiDiamond/LiFiDiamond"
@@ -10,13 +8,15 @@ import { LiFiTransfer } from "../generated/schema";
  */
  export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
+  // load or create entity for transactionId
   let transferId = event.params.transactionId.toHex();
   let lifiTransfer = LiFiTransfer.load(transferId);
   if (lifiTransfer == null) {
     lifiTransfer = new LiFiTransfer(transferId);
   }
 
- lifiTransfer.integrator = event.params.integrator;
+  // store event data in entity
+  lifiTransfer.integrator = event.params.integrator;
   lifiTransfer.referrer = event.params.referrer;
   lifiTransfer.sendingAssetId = event.params.sendingAssetId;
   lifiTransfer.receivingAssetId = event.params.receivingAssetId;
@@ -24,5 +24,7 @@ import { LiFiTransfer } from "../generated/schema";
   lifiTransfer.amount = event.params.amount;
   lifiTransfer.destinationChainId = event.params.destinationChainId;
   lifiTransfer.timestamp = event.params.timestamp;
+
+  // save changes
   lifiTransfer.save()
 }

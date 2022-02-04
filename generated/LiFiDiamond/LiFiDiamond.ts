@@ -10,45 +10,25 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class DiamondCut extends ethereum.Event {
-  get params(): DiamondCut__Params {
-    return new DiamondCut__Params(this);
+export class Inited extends ethereum.Event {
+  get params(): Inited__Params {
+    return new Inited__Params(this);
   }
 }
 
-export class DiamondCut__Params {
-  _event: DiamondCut;
+export class Inited__Params {
+  _event: Inited;
 
-  constructor(event: DiamondCut) {
+  constructor(event: Inited) {
     this._event = event;
   }
 
-  get _diamondCut(): Array<DiamondCut_diamondCutStruct> {
-    return this._event.parameters[0].value.toTupleArray<
-      DiamondCut_diamondCutStruct
-    >();
+  get bridge(): Address {
+    return this._event.parameters[0].value.toAddress();
   }
 
-  get _init(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get _calldata(): Bytes {
-    return this._event.parameters[2].value.toBytes();
-  }
-}
-
-export class DiamondCut_diamondCutStruct extends ethereum.Tuple {
-  get facetAddress(): Address {
-    return this[0].toAddress();
-  }
-
-  get action(): i32 {
-    return this[1].toI32();
-  }
-
-  get functionSelectors(): Array<Bytes> {
-    return this[2].toBytesArray();
+  get chainId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -83,6 +63,106 @@ export class LiFiTransferCompleted__Params {
 
   get timestamp(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class LiFiTransferConfirmed extends ethereum.Event {
+  get params(): LiFiTransferConfirmed__Params {
+    return new LiFiTransferConfirmed__Params(this);
+  }
+}
+
+export class LiFiTransferConfirmed__Params {
+  _event: LiFiTransferConfirmed;
+
+  constructor(event: LiFiTransferConfirmed) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferRefunded extends ethereum.Event {
+  get params(): LiFiTransferRefunded__Params {
+    return new LiFiTransferRefunded__Params(this);
+  }
+}
+
+export class LiFiTransferRefunded__Params {
+  _event: LiFiTransferRefunded;
+
+  constructor(event: LiFiTransferRefunded) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
   }
 }
 
@@ -136,6 +216,28 @@ export class LiFiTransferStarted__Params {
   }
 }
 
+export class Inited1 extends ethereum.Event {
+  get params(): Inited1__Params {
+    return new Inited1__Params(this);
+  }
+}
+
+export class Inited1__Params {
+  _event: Inited1;
+
+  constructor(event: Inited1) {
+    this._event = event;
+  }
+
+  get bridge(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class LiFiTransferCompleted1 extends ethereum.Event {
   get params(): LiFiTransferCompleted1__Params {
     return new LiFiTransferCompleted1__Params(this);
@@ -170,6 +272,106 @@ export class LiFiTransferCompleted1__Params {
   }
 }
 
+export class LiFiTransferConfirmed1 extends ethereum.Event {
+  get params(): LiFiTransferConfirmed1__Params {
+    return new LiFiTransferConfirmed1__Params(this);
+  }
+}
+
+export class LiFiTransferConfirmed1__Params {
+  _event: LiFiTransferConfirmed1;
+
+  constructor(event: LiFiTransferConfirmed1) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferRefunded1 extends ethereum.Event {
+  get params(): LiFiTransferRefunded1__Params {
+    return new LiFiTransferRefunded1__Params(this);
+  }
+}
+
+export class LiFiTransferRefunded1__Params {
+  _event: LiFiTransferRefunded1;
+
+  constructor(event: LiFiTransferRefunded1) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
 export class LiFiTransferStarted1 extends ethereum.Event {
   get params(): LiFiTransferStarted1__Params {
     return new LiFiTransferStarted1__Params(this);
@@ -180,6 +382,872 @@ export class LiFiTransferStarted1__Params {
   _event: LiFiTransferStarted1;
 
   constructor(event: LiFiTransferStarted1) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class Inited2 extends ethereum.Event {
+  get params(): Inited2__Params {
+    return new Inited2__Params(this);
+  }
+}
+
+export class Inited2__Params {
+  _event: Inited2;
+
+  constructor(event: Inited2) {
+    this._event = event;
+  }
+
+  get bridge(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class LiFiTransferCompleted2 extends ethereum.Event {
+  get params(): LiFiTransferCompleted2__Params {
+    return new LiFiTransferCompleted2__Params(this);
+  }
+}
+
+export class LiFiTransferCompleted2__Params {
+  _event: LiFiTransferCompleted2;
+
+  constructor(event: LiFiTransferCompleted2) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class LiFiTransferConfirmed2 extends ethereum.Event {
+  get params(): LiFiTransferConfirmed2__Params {
+    return new LiFiTransferConfirmed2__Params(this);
+  }
+}
+
+export class LiFiTransferConfirmed2__Params {
+  _event: LiFiTransferConfirmed2;
+
+  constructor(event: LiFiTransferConfirmed2) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferRefunded2 extends ethereum.Event {
+  get params(): LiFiTransferRefunded2__Params {
+    return new LiFiTransferRefunded2__Params(this);
+  }
+}
+
+export class LiFiTransferRefunded2__Params {
+  _event: LiFiTransferRefunded2;
+
+  constructor(event: LiFiTransferRefunded2) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferStarted2 extends ethereum.Event {
+  get params(): LiFiTransferStarted2__Params {
+    return new LiFiTransferStarted2__Params(this);
+  }
+}
+
+export class LiFiTransferStarted2__Params {
+  _event: LiFiTransferStarted2;
+
+  constructor(event: LiFiTransferStarted2) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class DiamondCut extends ethereum.Event {
+  get params(): DiamondCut__Params {
+    return new DiamondCut__Params(this);
+  }
+}
+
+export class DiamondCut__Params {
+  _event: DiamondCut;
+
+  constructor(event: DiamondCut) {
+    this._event = event;
+  }
+
+  get _diamondCut(): Array<DiamondCut_diamondCutStruct> {
+    return this._event.parameters[0].value.toTupleArray<
+      DiamondCut_diamondCutStruct
+    >();
+  }
+
+  get _init(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get _calldata(): Bytes {
+    return this._event.parameters[2].value.toBytes();
+  }
+}
+
+export class DiamondCut_diamondCutStruct extends ethereum.Tuple {
+  get facetAddress(): Address {
+    return this[0].toAddress();
+  }
+
+  get action(): i32 {
+    return this[1].toI32();
+  }
+
+  get functionSelectors(): Array<Bytes> {
+    return this[2].toBytesArray();
+  }
+}
+
+export class Inited3 extends ethereum.Event {
+  get params(): Inited3__Params {
+    return new Inited3__Params(this);
+  }
+}
+
+export class Inited3__Params {
+  _event: Inited3;
+
+  constructor(event: Inited3) {
+    this._event = event;
+  }
+
+  get bridge(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class LiFiTransferCompleted3 extends ethereum.Event {
+  get params(): LiFiTransferCompleted3__Params {
+    return new LiFiTransferCompleted3__Params(this);
+  }
+}
+
+export class LiFiTransferCompleted3__Params {
+  _event: LiFiTransferCompleted3;
+
+  constructor(event: LiFiTransferCompleted3) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class LiFiTransferConfirmed3 extends ethereum.Event {
+  get params(): LiFiTransferConfirmed3__Params {
+    return new LiFiTransferConfirmed3__Params(this);
+  }
+}
+
+export class LiFiTransferConfirmed3__Params {
+  _event: LiFiTransferConfirmed3;
+
+  constructor(event: LiFiTransferConfirmed3) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferRefunded3 extends ethereum.Event {
+  get params(): LiFiTransferRefunded3__Params {
+    return new LiFiTransferRefunded3__Params(this);
+  }
+}
+
+export class LiFiTransferRefunded3__Params {
+  _event: LiFiTransferRefunded3;
+
+  constructor(event: LiFiTransferRefunded3) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferStarted3 extends ethereum.Event {
+  get params(): LiFiTransferStarted3__Params {
+    return new LiFiTransferStarted3__Params(this);
+  }
+}
+
+export class LiFiTransferStarted3__Params {
+  _event: LiFiTransferStarted3;
+
+  constructor(event: LiFiTransferStarted3) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class Inited4 extends ethereum.Event {
+  get params(): Inited4__Params {
+    return new Inited4__Params(this);
+  }
+}
+
+export class Inited4__Params {
+  _event: Inited4;
+
+  constructor(event: Inited4) {
+    this._event = event;
+  }
+
+  get bridge(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class LiFiTransferCompleted4 extends ethereum.Event {
+  get params(): LiFiTransferCompleted4__Params {
+    return new LiFiTransferCompleted4__Params(this);
+  }
+}
+
+export class LiFiTransferCompleted4__Params {
+  _event: LiFiTransferCompleted4;
+
+  constructor(event: LiFiTransferCompleted4) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class LiFiTransferConfirmed4 extends ethereum.Event {
+  get params(): LiFiTransferConfirmed4__Params {
+    return new LiFiTransferConfirmed4__Params(this);
+  }
+}
+
+export class LiFiTransferConfirmed4__Params {
+  _event: LiFiTransferConfirmed4;
+
+  constructor(event: LiFiTransferConfirmed4) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferRefunded4 extends ethereum.Event {
+  get params(): LiFiTransferRefunded4__Params {
+    return new LiFiTransferRefunded4__Params(this);
+  }
+}
+
+export class LiFiTransferRefunded4__Params {
+  _event: LiFiTransferRefunded4;
+
+  constructor(event: LiFiTransferRefunded4) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferStarted4 extends ethereum.Event {
+  get params(): LiFiTransferStarted4__Params {
+    return new LiFiTransferStarted4__Params(this);
+  }
+}
+
+export class LiFiTransferStarted4__Params {
+  _event: LiFiTransferStarted4;
+
+  constructor(event: LiFiTransferStarted4) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class Inited5 extends ethereum.Event {
+  get params(): Inited5__Params {
+    return new Inited5__Params(this);
+  }
+}
+
+export class Inited5__Params {
+  _event: Inited5;
+
+  constructor(event: Inited5) {
+    this._event = event;
+  }
+
+  get bridge(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class LiFiTransferCompleted5 extends ethereum.Event {
+  get params(): LiFiTransferCompleted5__Params {
+    return new LiFiTransferCompleted5__Params(this);
+  }
+}
+
+export class LiFiTransferCompleted5__Params {
+  _event: LiFiTransferCompleted5;
+
+  constructor(event: LiFiTransferCompleted5) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class LiFiTransferConfirmed5 extends ethereum.Event {
+  get params(): LiFiTransferConfirmed5__Params {
+    return new LiFiTransferConfirmed5__Params(this);
+  }
+}
+
+export class LiFiTransferConfirmed5__Params {
+  _event: LiFiTransferConfirmed5;
+
+  constructor(event: LiFiTransferConfirmed5) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferRefunded5 extends ethereum.Event {
+  get params(): LiFiTransferRefunded5__Params {
+    return new LiFiTransferRefunded5__Params(this);
+  }
+}
+
+export class LiFiTransferRefunded5__Params {
+  _event: LiFiTransferRefunded5;
+
+  constructor(event: LiFiTransferRefunded5) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferStarted5 extends ethereum.Event {
+  get params(): LiFiTransferStarted5__Params {
+    return new LiFiTransferStarted5__Params(this);
+  }
+}
+
+export class LiFiTransferStarted5__Params {
+  _event: LiFiTransferStarted5;
+
+  constructor(event: LiFiTransferStarted5) {
     this._event = event;
   }
 
@@ -357,6 +1425,212 @@ export class LogWithdraw__Params {
 
   get amount(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class Inited6 extends ethereum.Event {
+  get params(): Inited6__Params {
+    return new Inited6__Params(this);
+  }
+}
+
+export class Inited6__Params {
+  _event: Inited6;
+
+  constructor(event: Inited6) {
+    this._event = event;
+  }
+
+  get bridge(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class LiFiTransferCompleted6 extends ethereum.Event {
+  get params(): LiFiTransferCompleted6__Params {
+    return new LiFiTransferCompleted6__Params(this);
+  }
+}
+
+export class LiFiTransferCompleted6__Params {
+  _event: LiFiTransferCompleted6;
+
+  constructor(event: LiFiTransferCompleted6) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
+export class LiFiTransferConfirmed6 extends ethereum.Event {
+  get params(): LiFiTransferConfirmed6__Params {
+    return new LiFiTransferConfirmed6__Params(this);
+  }
+}
+
+export class LiFiTransferConfirmed6__Params {
+  _event: LiFiTransferConfirmed6;
+
+  constructor(event: LiFiTransferConfirmed6) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferRefunded6 extends ethereum.Event {
+  get params(): LiFiTransferRefunded6__Params {
+    return new LiFiTransferRefunded6__Params(this);
+  }
+}
+
+export class LiFiTransferRefunded6__Params {
+  _event: LiFiTransferRefunded6;
+
+  constructor(event: LiFiTransferRefunded6) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
+  }
+}
+
+export class LiFiTransferStarted6 extends ethereum.Event {
+  get params(): LiFiTransferStarted6__Params {
+    return new LiFiTransferStarted6__Params(this);
+  }
+}
+
+export class LiFiTransferStarted6__Params {
+  _event: LiFiTransferStarted6;
+
+  constructor(event: LiFiTransferStarted6) {
+    this._event = event;
+  }
+
+  get transactionId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get integrator(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get referrer(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this._event.parameters[3].value.toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this._event.parameters[4].value.toAddress();
+  }
+
+  get receiver(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[6].value.toBigInt();
+  }
+
+  get destinationChainId(): BigInt {
+    return this._event.parameters[7].value.toBigInt();
+  }
+
+  get timestamp(): BigInt {
+    return this._event.parameters[8].value.toBigInt();
   }
 }
 
@@ -631,6 +1905,742 @@ export class LiFiDiamond extends ethereum.SmartContract {
   }
 }
 
+export class StartBridgeTokensViaAnyswapCall extends ethereum.Call {
+  get inputs(): StartBridgeTokensViaAnyswapCall__Inputs {
+    return new StartBridgeTokensViaAnyswapCall__Inputs(this);
+  }
+
+  get outputs(): StartBridgeTokensViaAnyswapCall__Outputs {
+    return new StartBridgeTokensViaAnyswapCall__Outputs(this);
+  }
+}
+
+export class StartBridgeTokensViaAnyswapCall__Inputs {
+  _call: StartBridgeTokensViaAnyswapCall;
+
+  constructor(call: StartBridgeTokensViaAnyswapCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): StartBridgeTokensViaAnyswapCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as StartBridgeTokensViaAnyswapCall_lifiDataStruct;
+  }
+
+  get _anyswapData(): StartBridgeTokensViaAnyswapCall_anyswapDataStruct {
+    return this._call.inputValues[1].value.toTuple() as StartBridgeTokensViaAnyswapCall_anyswapDataStruct;
+  }
+}
+
+export class StartBridgeTokensViaAnyswapCall__Outputs {
+  _call: StartBridgeTokensViaAnyswapCall;
+
+  constructor(call: StartBridgeTokensViaAnyswapCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensViaAnyswapCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class StartBridgeTokensViaAnyswapCall_anyswapDataStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get router(): Address {
+    return this[1].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get recipient(): Address {
+    return this[3].toAddress();
+  }
+
+  get toChainId(): BigInt {
+    return this[4].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaAnyswapCall extends ethereum.Call {
+  get inputs(): SwapAndStartBridgeTokensViaAnyswapCall__Inputs {
+    return new SwapAndStartBridgeTokensViaAnyswapCall__Inputs(this);
+  }
+
+  get outputs(): SwapAndStartBridgeTokensViaAnyswapCall__Outputs {
+    return new SwapAndStartBridgeTokensViaAnyswapCall__Outputs(this);
+  }
+}
+
+export class SwapAndStartBridgeTokensViaAnyswapCall__Inputs {
+  _call: SwapAndStartBridgeTokensViaAnyswapCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaAnyswapCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): SwapAndStartBridgeTokensViaAnyswapCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as SwapAndStartBridgeTokensViaAnyswapCall_lifiDataStruct;
+  }
+
+  get _swapData(): Array<
+    SwapAndStartBridgeTokensViaAnyswapCall_swapDataStruct
+  > {
+    return this._call.inputValues[1].value.toTupleArray<
+      SwapAndStartBridgeTokensViaAnyswapCall_swapDataStruct
+    >();
+  }
+
+  get _anyswapData(): SwapAndStartBridgeTokensViaAnyswapCall_anyswapDataStruct {
+    return this._call.inputValues[2].value.toTuple() as SwapAndStartBridgeTokensViaAnyswapCall_anyswapDataStruct;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaAnyswapCall__Outputs {
+  _call: SwapAndStartBridgeTokensViaAnyswapCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaAnyswapCall) {
+    this._call = call;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaAnyswapCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaAnyswapCall_swapDataStruct extends ethereum.Tuple {
+  get callTo(): Address {
+    return this[0].toAddress();
+  }
+
+  get approveTo(): Address {
+    return this[1].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[2].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get fromAmount(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get callData(): Bytes {
+    return this[5].toBytes();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaAnyswapCall_anyswapDataStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get router(): Address {
+    return this[1].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get recipient(): Address {
+    return this[3].toAddress();
+  }
+
+  get toChainId(): BigInt {
+    return this[4].toBigInt();
+  }
+}
+
+export class ChangeBiconomyRouterCall extends ethereum.Call {
+  get inputs(): ChangeBiconomyRouterCall__Inputs {
+    return new ChangeBiconomyRouterCall__Inputs(this);
+  }
+
+  get outputs(): ChangeBiconomyRouterCall__Outputs {
+    return new ChangeBiconomyRouterCall__Outputs(this);
+  }
+}
+
+export class ChangeBiconomyRouterCall__Inputs {
+  _call: ChangeBiconomyRouterCall;
+
+  constructor(call: ChangeBiconomyRouterCall) {
+    this._call = call;
+  }
+
+  get _newRouter(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class ChangeBiconomyRouterCall__Outputs {
+  _call: ChangeBiconomyRouterCall;
+
+  constructor(call: ChangeBiconomyRouterCall) {
+    this._call = call;
+  }
+}
+
+export class InitBiconomyCall extends ethereum.Call {
+  get inputs(): InitBiconomyCall__Inputs {
+    return new InitBiconomyCall__Inputs(this);
+  }
+
+  get outputs(): InitBiconomyCall__Outputs {
+    return new InitBiconomyCall__Outputs(this);
+  }
+}
+
+export class InitBiconomyCall__Inputs {
+  _call: InitBiconomyCall;
+
+  constructor(call: InitBiconomyCall) {
+    this._call = call;
+  }
+
+  get _biconomyRouter(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class InitBiconomyCall__Outputs {
+  _call: InitBiconomyCall;
+
+  constructor(call: InitBiconomyCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensViaBiconomyCall extends ethereum.Call {
+  get inputs(): StartBridgeTokensViaBiconomyCall__Inputs {
+    return new StartBridgeTokensViaBiconomyCall__Inputs(this);
+  }
+
+  get outputs(): StartBridgeTokensViaBiconomyCall__Outputs {
+    return new StartBridgeTokensViaBiconomyCall__Outputs(this);
+  }
+}
+
+export class StartBridgeTokensViaBiconomyCall__Inputs {
+  _call: StartBridgeTokensViaBiconomyCall;
+
+  constructor(call: StartBridgeTokensViaBiconomyCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): StartBridgeTokensViaBiconomyCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as StartBridgeTokensViaBiconomyCall_lifiDataStruct;
+  }
+
+  get _biconomyData(): StartBridgeTokensViaBiconomyCall_biconomyDataStruct {
+    return this._call.inputValues[1].value.toTuple() as StartBridgeTokensViaBiconomyCall_biconomyDataStruct;
+  }
+}
+
+export class StartBridgeTokensViaBiconomyCall__Outputs {
+  _call: StartBridgeTokensViaBiconomyCall;
+
+  constructor(call: StartBridgeTokensViaBiconomyCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensViaBiconomyCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class StartBridgeTokensViaBiconomyCall_biconomyDataStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get recipient(): Address {
+    return this[2].toAddress();
+  }
+
+  get toChainId(): BigInt {
+    return this[3].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaBiconomyCall extends ethereum.Call {
+  get inputs(): SwapAndStartBridgeTokensViaBiconomyCall__Inputs {
+    return new SwapAndStartBridgeTokensViaBiconomyCall__Inputs(this);
+  }
+
+  get outputs(): SwapAndStartBridgeTokensViaBiconomyCall__Outputs {
+    return new SwapAndStartBridgeTokensViaBiconomyCall__Outputs(this);
+  }
+}
+
+export class SwapAndStartBridgeTokensViaBiconomyCall__Inputs {
+  _call: SwapAndStartBridgeTokensViaBiconomyCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaBiconomyCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): SwapAndStartBridgeTokensViaBiconomyCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as SwapAndStartBridgeTokensViaBiconomyCall_lifiDataStruct;
+  }
+
+  get _swapData(): Array<
+    SwapAndStartBridgeTokensViaBiconomyCall_swapDataStruct
+  > {
+    return this._call.inputValues[1].value.toTupleArray<
+      SwapAndStartBridgeTokensViaBiconomyCall_swapDataStruct
+    >();
+  }
+
+  get _biconomyData(): SwapAndStartBridgeTokensViaBiconomyCall_biconomyDataStruct {
+    return this._call.inputValues[2].value.toTuple() as SwapAndStartBridgeTokensViaBiconomyCall_biconomyDataStruct;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaBiconomyCall__Outputs {
+  _call: SwapAndStartBridgeTokensViaBiconomyCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaBiconomyCall) {
+    this._call = call;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaBiconomyCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaBiconomyCall_swapDataStruct extends ethereum.Tuple {
+  get callTo(): Address {
+    return this[0].toAddress();
+  }
+
+  get approveTo(): Address {
+    return this[1].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[2].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get fromAmount(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get callData(): Bytes {
+    return this[5].toBytes();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaBiconomyCall_biconomyDataStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get recipient(): Address {
+    return this[2].toAddress();
+  }
+
+  get toChainId(): BigInt {
+    return this[3].toBigInt();
+  }
+}
+
+export class InitCbridgeCall extends ethereum.Call {
+  get inputs(): InitCbridgeCall__Inputs {
+    return new InitCbridgeCall__Inputs(this);
+  }
+
+  get outputs(): InitCbridgeCall__Outputs {
+    return new InitCbridgeCall__Outputs(this);
+  }
+}
+
+export class InitCbridgeCall__Inputs {
+  _call: InitCbridgeCall;
+
+  constructor(call: InitCbridgeCall) {
+    this._call = call;
+  }
+
+  get _cBridge(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _chainId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class InitCbridgeCall__Outputs {
+  _call: InitCbridgeCall;
+
+  constructor(call: InitCbridgeCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensViaCBridgeCall extends ethereum.Call {
+  get inputs(): StartBridgeTokensViaCBridgeCall__Inputs {
+    return new StartBridgeTokensViaCBridgeCall__Inputs(this);
+  }
+
+  get outputs(): StartBridgeTokensViaCBridgeCall__Outputs {
+    return new StartBridgeTokensViaCBridgeCall__Outputs(this);
+  }
+}
+
+export class StartBridgeTokensViaCBridgeCall__Inputs {
+  _call: StartBridgeTokensViaCBridgeCall;
+
+  constructor(call: StartBridgeTokensViaCBridgeCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): StartBridgeTokensViaCBridgeCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as StartBridgeTokensViaCBridgeCall_lifiDataStruct;
+  }
+
+  get _cBridgeData(): StartBridgeTokensViaCBridgeCall_cBridgeDataStruct {
+    return this._call.inputValues[1].value.toTuple() as StartBridgeTokensViaCBridgeCall_cBridgeDataStruct;
+  }
+}
+
+export class StartBridgeTokensViaCBridgeCall__Outputs {
+  _call: StartBridgeTokensViaCBridgeCall;
+
+  constructor(call: StartBridgeTokensViaCBridgeCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensViaCBridgeCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class StartBridgeTokensViaCBridgeCall_cBridgeDataStruct extends ethereum.Tuple {
+  get receiver(): Address {
+    return this[0].toAddress();
+  }
+
+  get token(): Address {
+    return this[1].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get dstChainId(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get nonce(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get maxSlippage(): BigInt {
+    return this[5].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaCBridgeCall extends ethereum.Call {
+  get inputs(): SwapAndStartBridgeTokensViaCBridgeCall__Inputs {
+    return new SwapAndStartBridgeTokensViaCBridgeCall__Inputs(this);
+  }
+
+  get outputs(): SwapAndStartBridgeTokensViaCBridgeCall__Outputs {
+    return new SwapAndStartBridgeTokensViaCBridgeCall__Outputs(this);
+  }
+}
+
+export class SwapAndStartBridgeTokensViaCBridgeCall__Inputs {
+  _call: SwapAndStartBridgeTokensViaCBridgeCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaCBridgeCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): SwapAndStartBridgeTokensViaCBridgeCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as SwapAndStartBridgeTokensViaCBridgeCall_lifiDataStruct;
+  }
+
+  get _swapData(): Array<
+    SwapAndStartBridgeTokensViaCBridgeCall_swapDataStruct
+  > {
+    return this._call.inputValues[1].value.toTupleArray<
+      SwapAndStartBridgeTokensViaCBridgeCall_swapDataStruct
+    >();
+  }
+
+  get _cBridgeData(): SwapAndStartBridgeTokensViaCBridgeCall_cBridgeDataStruct {
+    return this._call.inputValues[2].value.toTuple() as SwapAndStartBridgeTokensViaCBridgeCall_cBridgeDataStruct;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaCBridgeCall__Outputs {
+  _call: SwapAndStartBridgeTokensViaCBridgeCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaCBridgeCall) {
+    this._call = call;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaCBridgeCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaCBridgeCall_swapDataStruct extends ethereum.Tuple {
+  get callTo(): Address {
+    return this[0].toAddress();
+  }
+
+  get approveTo(): Address {
+    return this[1].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[2].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get fromAmount(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get callData(): Bytes {
+    return this[5].toBytes();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaCBridgeCall_cBridgeDataStruct extends ethereum.Tuple {
+  get receiver(): Address {
+    return this[0].toAddress();
+  }
+
+  get token(): Address {
+    return this[1].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get dstChainId(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get nonce(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get maxSlippage(): BigInt {
+    return this[5].toBigInt();
+  }
+}
+
 export class DiamondCutCall extends ethereum.Call {
   get inputs(): DiamondCutCall__Inputs {
     return new DiamondCutCall__Inputs(this);
@@ -682,6 +2692,264 @@ export class DiamondCutCall_diamondCutStruct extends ethereum.Tuple {
 
   get functionSelectors(): Array<Bytes> {
     return this[2].toBytesArray();
+  }
+}
+
+export class StartBridgeTokensGenericCall extends ethereum.Call {
+  get inputs(): StartBridgeTokensGenericCall__Inputs {
+    return new StartBridgeTokensGenericCall__Inputs(this);
+  }
+
+  get outputs(): StartBridgeTokensGenericCall__Outputs {
+    return new StartBridgeTokensGenericCall__Outputs(this);
+  }
+}
+
+export class StartBridgeTokensGenericCall__Inputs {
+  _call: StartBridgeTokensGenericCall;
+
+  constructor(call: StartBridgeTokensGenericCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): StartBridgeTokensGenericCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as StartBridgeTokensGenericCall_lifiDataStruct;
+  }
+
+  get _bridgeData(): StartBridgeTokensGenericCall_bridgeDataStruct {
+    return this._call.inputValues[1].value.toTuple() as StartBridgeTokensGenericCall_bridgeDataStruct;
+  }
+}
+
+export class StartBridgeTokensGenericCall__Outputs {
+  _call: StartBridgeTokensGenericCall;
+
+  constructor(call: StartBridgeTokensGenericCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensGenericCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class StartBridgeTokensGenericCall_bridgeDataStruct extends ethereum.Tuple {
+  get amount(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get assetId(): Address {
+    return this[1].toAddress();
+  }
+
+  get callTo(): Address {
+    return this[2].toAddress();
+  }
+
+  get callData(): Bytes {
+    return this[3].toBytes();
+  }
+}
+
+export class SwapAndStartBridgeTokensGenericCall extends ethereum.Call {
+  get inputs(): SwapAndStartBridgeTokensGenericCall__Inputs {
+    return new SwapAndStartBridgeTokensGenericCall__Inputs(this);
+  }
+
+  get outputs(): SwapAndStartBridgeTokensGenericCall__Outputs {
+    return new SwapAndStartBridgeTokensGenericCall__Outputs(this);
+  }
+}
+
+export class SwapAndStartBridgeTokensGenericCall__Inputs {
+  _call: SwapAndStartBridgeTokensGenericCall;
+
+  constructor(call: SwapAndStartBridgeTokensGenericCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): SwapAndStartBridgeTokensGenericCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as SwapAndStartBridgeTokensGenericCall_lifiDataStruct;
+  }
+
+  get _swapData(): Array<SwapAndStartBridgeTokensGenericCall_swapDataStruct> {
+    return this._call.inputValues[1].value.toTupleArray<
+      SwapAndStartBridgeTokensGenericCall_swapDataStruct
+    >();
+  }
+
+  get _bridgeData(): SwapAndStartBridgeTokensGenericCall_bridgeDataStruct {
+    return this._call.inputValues[2].value.toTuple() as SwapAndStartBridgeTokensGenericCall_bridgeDataStruct;
+  }
+}
+
+export class SwapAndStartBridgeTokensGenericCall__Outputs {
+  _call: SwapAndStartBridgeTokensGenericCall;
+
+  constructor(call: SwapAndStartBridgeTokensGenericCall) {
+    this._call = call;
+  }
+}
+
+export class SwapAndStartBridgeTokensGenericCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensGenericCall_swapDataStruct extends ethereum.Tuple {
+  get callTo(): Address {
+    return this[0].toAddress();
+  }
+
+  get approveTo(): Address {
+    return this[1].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[2].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get fromAmount(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get callData(): Bytes {
+    return this[5].toBytes();
+  }
+}
+
+export class SwapAndStartBridgeTokensGenericCall_bridgeDataStruct extends ethereum.Tuple {
+  get amount(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get assetId(): Address {
+    return this[1].toAddress();
+  }
+
+  get callTo(): Address {
+    return this[2].toAddress();
+  }
+
+  get callData(): Bytes {
+    return this[3].toBytes();
+  }
+}
+
+export class InitHopCall extends ethereum.Call {
+  get inputs(): InitHopCall__Inputs {
+    return new InitHopCall__Inputs(this);
+  }
+
+  get outputs(): InitHopCall__Outputs {
+    return new InitHopCall__Outputs(this);
+  }
+}
+
+export class InitHopCall__Inputs {
+  _call: InitHopCall;
+
+  constructor(call: InitHopCall) {
+    this._call = call;
+  }
+
+  get _tokens(): Array<string> {
+    return this._call.inputValues[0].value.toStringArray();
+  }
+
+  get _bridgeConfigs(): Array<InitHopCall_bridgeConfigsStruct> {
+    return this._call.inputValues[1].value.toTupleArray<
+      InitHopCall_bridgeConfigsStruct
+    >();
+  }
+
+  get _chainId(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+}
+
+export class InitHopCall__Outputs {
+  _call: InitHopCall;
+
+  constructor(call: InitHopCall) {
+    this._call = call;
+  }
+}
+
+export class InitHopCall_bridgeConfigsStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get bridge(): Address {
+    return this[1].toAddress();
+  }
+
+  get ammWrapper(): Address {
+    return this[2].toAddress();
   }
 }
 
@@ -754,24 +3022,40 @@ export class StartBridgeTokensViaHopCall_lifiDataStruct extends ethereum.Tuple {
 }
 
 export class StartBridgeTokensViaHopCall_hopDataStruct extends ethereum.Tuple {
-  get chainId(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get relayerFee(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get assetId(): Address {
-    return this[3].toAddress();
+  get asset(): string {
+    return this[0].toString();
   }
 
   get recipient(): Address {
-    return this[4].toAddress();
+    return this[1].toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get bonderFee(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get amountOutMin(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get deadline(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get destinationAmountOutMin(): BigInt {
+    return this[7].toBigInt();
+  }
+
+  get destinationDeadline(): BigInt {
+    return this[8].toBigInt();
   }
 }
 
@@ -854,42 +3138,62 @@ export class SwapAndStartBridgeTokensViaHopCall_swapDataStruct extends ethereum.
     return this[0].toAddress();
   }
 
-  get sendingAssetId(): Address {
+  get approveTo(): Address {
     return this[1].toAddress();
   }
 
-  get receivingAssetId(): Address {
+  get sendingAssetId(): Address {
     return this[2].toAddress();
   }
 
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
   get fromAmount(): BigInt {
-    return this[3].toBigInt();
+    return this[4].toBigInt();
   }
 
   get callData(): Bytes {
-    return this[4].toBytes();
+    return this[5].toBytes();
   }
 }
 
 export class SwapAndStartBridgeTokensViaHopCall_hopDataStruct extends ethereum.Tuple {
-  get chainId(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get amount(): BigInt {
-    return this[1].toBigInt();
-  }
-
-  get relayerFee(): BigInt {
-    return this[2].toBigInt();
-  }
-
-  get assetId(): Address {
-    return this[3].toAddress();
+  get asset(): string {
+    return this[0].toString();
   }
 
   get recipient(): Address {
-    return this[4].toAddress();
+    return this[1].toAddress();
+  }
+
+  get chainId(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get bonderFee(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get amountOutMin(): BigInt {
+    return this[5].toBigInt();
+  }
+
+  get deadline(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get destinationAmountOutMin(): BigInt {
+    return this[7].toBigInt();
+  }
+
+  get destinationDeadline(): BigInt {
+    return this[8].toBigInt();
   }
 }
 
@@ -966,6 +3270,36 @@ export class CompleteBridgeTokensViaNXTPCall_lifiDataStruct extends ethereum.Tup
 
   get amount(): BigInt {
     return this[7].toBigInt();
+  }
+}
+
+export class InitNXTPCall extends ethereum.Call {
+  get inputs(): InitNXTPCall__Inputs {
+    return new InitNXTPCall__Inputs(this);
+  }
+
+  get outputs(): InitNXTPCall__Outputs {
+    return new InitNXTPCall__Outputs(this);
+  }
+}
+
+export class InitNXTPCall__Inputs {
+  _call: InitNXTPCall;
+
+  constructor(call: InitNXTPCall) {
+    this._call = call;
+  }
+
+  get _txMgrAddr(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class InitNXTPCall__Outputs {
+  _call: InitNXTPCall;
+
+  constructor(call: InitNXTPCall) {
+    this._call = call;
   }
 }
 
@@ -1206,20 +3540,24 @@ export class SwapAndCompleteBridgeTokensViaNXTPCall_swapDataStruct extends ether
     return this[0].toAddress();
   }
 
-  get sendingAssetId(): Address {
+  get approveTo(): Address {
     return this[1].toAddress();
   }
 
-  get receivingAssetId(): Address {
+  get sendingAssetId(): Address {
     return this[2].toAddress();
   }
 
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
   get fromAmount(): BigInt {
-    return this[3].toBigInt();
+    return this[4].toBigInt();
   }
 
   get callData(): Bytes {
-    return this[4].toBytes();
+    return this[5].toBytes();
   }
 }
 
@@ -1302,20 +3640,24 @@ export class SwapAndStartBridgeTokensViaNXTPCall_swapDataStruct extends ethereum
     return this[0].toAddress();
   }
 
-  get sendingAssetId(): Address {
+  get approveTo(): Address {
     return this[1].toAddress();
   }
 
-  get receivingAssetId(): Address {
+  get sendingAssetId(): Address {
     return this[2].toAddress();
   }
 
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
   get fromAmount(): BigInt {
-    return this[3].toBigInt();
+    return this[4].toBigInt();
   }
 
   get callData(): Bytes {
-    return this[4].toBytes();
+    return this[5].toBytes();
   }
 }
 
@@ -1468,5 +3810,279 @@ export class WithdrawCall__Outputs {
 
   constructor(call: WithdrawCall) {
     this._call = call;
+  }
+}
+
+export class ChangeWormholeRouterCall extends ethereum.Call {
+  get inputs(): ChangeWormholeRouterCall__Inputs {
+    return new ChangeWormholeRouterCall__Inputs(this);
+  }
+
+  get outputs(): ChangeWormholeRouterCall__Outputs {
+    return new ChangeWormholeRouterCall__Outputs(this);
+  }
+}
+
+export class ChangeWormholeRouterCall__Inputs {
+  _call: ChangeWormholeRouterCall;
+
+  constructor(call: ChangeWormholeRouterCall) {
+    this._call = call;
+  }
+
+  get _newRouter(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class ChangeWormholeRouterCall__Outputs {
+  _call: ChangeWormholeRouterCall;
+
+  constructor(call: ChangeWormholeRouterCall) {
+    this._call = call;
+  }
+}
+
+export class InitWormholeCall extends ethereum.Call {
+  get inputs(): InitWormholeCall__Inputs {
+    return new InitWormholeCall__Inputs(this);
+  }
+
+  get outputs(): InitWormholeCall__Outputs {
+    return new InitWormholeCall__Outputs(this);
+  }
+}
+
+export class InitWormholeCall__Inputs {
+  _call: InitWormholeCall;
+
+  constructor(call: InitWormholeCall) {
+    this._call = call;
+  }
+
+  get _wormholeRouter(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class InitWormholeCall__Outputs {
+  _call: InitWormholeCall;
+
+  constructor(call: InitWormholeCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensViaWormholeCall extends ethereum.Call {
+  get inputs(): StartBridgeTokensViaWormholeCall__Inputs {
+    return new StartBridgeTokensViaWormholeCall__Inputs(this);
+  }
+
+  get outputs(): StartBridgeTokensViaWormholeCall__Outputs {
+    return new StartBridgeTokensViaWormholeCall__Outputs(this);
+  }
+}
+
+export class StartBridgeTokensViaWormholeCall__Inputs {
+  _call: StartBridgeTokensViaWormholeCall;
+
+  constructor(call: StartBridgeTokensViaWormholeCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): StartBridgeTokensViaWormholeCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as StartBridgeTokensViaWormholeCall_lifiDataStruct;
+  }
+
+  get _wormholeData(): StartBridgeTokensViaWormholeCall_wormholeDataStruct {
+    return this._call.inputValues[1].value.toTuple() as StartBridgeTokensViaWormholeCall_wormholeDataStruct;
+  }
+}
+
+export class StartBridgeTokensViaWormholeCall__Outputs {
+  _call: StartBridgeTokensViaWormholeCall;
+
+  constructor(call: StartBridgeTokensViaWormholeCall) {
+    this._call = call;
+  }
+}
+
+export class StartBridgeTokensViaWormholeCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class StartBridgeTokensViaWormholeCall_wormholeDataStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get recipient(): Address {
+    return this[2].toAddress();
+  }
+
+  get toChainId(): i32 {
+    return this[3].toI32();
+  }
+
+  get nonce(): BigInt {
+    return this[4].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaWormholeCall extends ethereum.Call {
+  get inputs(): SwapAndStartBridgeTokensViaWormholeCall__Inputs {
+    return new SwapAndStartBridgeTokensViaWormholeCall__Inputs(this);
+  }
+
+  get outputs(): SwapAndStartBridgeTokensViaWormholeCall__Outputs {
+    return new SwapAndStartBridgeTokensViaWormholeCall__Outputs(this);
+  }
+}
+
+export class SwapAndStartBridgeTokensViaWormholeCall__Inputs {
+  _call: SwapAndStartBridgeTokensViaWormholeCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaWormholeCall) {
+    this._call = call;
+  }
+
+  get _lifiData(): SwapAndStartBridgeTokensViaWormholeCall_lifiDataStruct {
+    return this._call.inputValues[0].value.toTuple() as SwapAndStartBridgeTokensViaWormholeCall_lifiDataStruct;
+  }
+
+  get _swapData(): Array<
+    SwapAndStartBridgeTokensViaWormholeCall_swapDataStruct
+  > {
+    return this._call.inputValues[1].value.toTupleArray<
+      SwapAndStartBridgeTokensViaWormholeCall_swapDataStruct
+    >();
+  }
+
+  get _wormholeData(): SwapAndStartBridgeTokensViaWormholeCall_wormholeDataStruct {
+    return this._call.inputValues[2].value.toTuple() as SwapAndStartBridgeTokensViaWormholeCall_wormholeDataStruct;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaWormholeCall__Outputs {
+  _call: SwapAndStartBridgeTokensViaWormholeCall;
+
+  constructor(call: SwapAndStartBridgeTokensViaWormholeCall) {
+    this._call = call;
+  }
+}
+
+export class SwapAndStartBridgeTokensViaWormholeCall_lifiDataStruct extends ethereum.Tuple {
+  get transactionId(): Bytes {
+    return this[0].toBytes();
+  }
+
+  get integrator(): string {
+    return this[1].toString();
+  }
+
+  get referrer(): Address {
+    return this[2].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[4].toAddress();
+  }
+
+  get receiver(): Address {
+    return this[5].toAddress();
+  }
+
+  get destinationChainId(): BigInt {
+    return this[6].toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this[7].toBigInt();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaWormholeCall_swapDataStruct extends ethereum.Tuple {
+  get callTo(): Address {
+    return this[0].toAddress();
+  }
+
+  get approveTo(): Address {
+    return this[1].toAddress();
+  }
+
+  get sendingAssetId(): Address {
+    return this[2].toAddress();
+  }
+
+  get receivingAssetId(): Address {
+    return this[3].toAddress();
+  }
+
+  get fromAmount(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get callData(): Bytes {
+    return this[5].toBytes();
+  }
+}
+
+export class SwapAndStartBridgeTokensViaWormholeCall_wormholeDataStruct extends ethereum.Tuple {
+  get token(): Address {
+    return this[0].toAddress();
+  }
+
+  get amount(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get recipient(): Address {
+    return this[2].toAddress();
+  }
+
+  get toChainId(): i32 {
+    return this[3].toI32();
+  }
+
+  get nonce(): BigInt {
+    return this[4].toBigInt();
   }
 }

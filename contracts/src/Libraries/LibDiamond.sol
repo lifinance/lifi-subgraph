@@ -33,6 +33,7 @@ library LibDiamond {
 
     function diamondStorage() internal pure returns (DiamondStorage storage ds) {
         bytes32 position = DIAMOND_STORAGE_POSITION;
+        // solhint-disable-next-line no-inline-assembly
         assembly {
             ds.slot := position
         }
@@ -189,6 +190,7 @@ library LibDiamond {
             if (_init != address(this)) {
                 enforceHasContractCode(_init, "LibDiamondCut: _init address has no code");
             }
+            // solhint-disable-next-line avoid-low-level-calls
             (bool success, bytes memory error) = _init.delegatecall(_calldata);
             if (!success) {
                 if (error.length > 0) {
@@ -203,6 +205,7 @@ library LibDiamond {
 
     function enforceHasContractCode(address _contract, string memory _errorMessage) internal view {
         uint256 contractSize;
+        // solhint-disable-next-line no-inline-assembly
         assembly {
             contractSize := extcodesize(_contract)
         }

@@ -1,9 +1,3 @@
-type AssetBalance @entity {
-  id: ID!
-  amount: BigInt!
-  router: Router!
-}
-
 type LiFiTransfer @entity {
   id: ID!
   integrator: String!
@@ -16,82 +10,62 @@ type LiFiTransfer @entity {
   timestamp: BigInt!
 }
 
+# enum TransactionStatus {
+#   Prepared
+#   Fulfilled
+#   Cancelled
+# }
 
-# emit LiFiTransferStarted(
-#     _lifiData.transactionId,
-#     _lifiData.integrator,
-#     _lifiData.referrer,
-#     _lifiData.sendingAssetId,
-#     _lifiData.receivingAssetId,
-#     _lifiData.receiver,
-#     _lifiData.amount,
-#     _lifiData.destinationChainId,
-#     block.timestamp
-# );
+# # Transaction represents a transaction
+# type Transaction @entity {
+#   id: ID!
+#   # Subgraph Meta
+#   status: TransactionStatus!
+#   chainId: BigInt!
+#   preparedTimestamp: BigInt!
 
-# Router represents a router and its associated liquidity
-type Router @entity {
-  id: ID!
-  assetBalances: [AssetBalance!]! @derivedFrom(field: "router")
-  transactions: [Transaction!]! @derivedFrom(field: "router")
-}
+#   # TransactionData
+#   receivingChainTxManagerAddress: Bytes!
+#   user: User!
+#   router: Router!
+#   sendingAssetId: Bytes!
+#   receivingAssetId: Bytes!
+#   sendingChainFallback: Bytes!
+#   callTo: Bytes!
+#   receivingAddress: Bytes!
+#   callDataHash: Bytes!
+#   transactionId: Bytes!
+#   sendingChainId: BigInt!
+#   receivingChainId: BigInt!
+#   amount: BigInt!
+#   expiry: BigInt!
+#   preparedBlockNumber: BigInt!
 
-enum TransactionStatus {
-  Prepared
-  Fulfilled
-  Cancelled
-}
+#   # TransactionPrepared
+#   encryptedCallData: String!
+#   prepareCaller: Bytes
+#   bidSignature: Bytes!
+#   encodedBid: Bytes!
+#   prepareTransactionHash: Bytes!
 
-# Transaction represents a transaction
-type Transaction @entity {
-  id: ID!
-  # Subgraph Meta
-  status: TransactionStatus!
-  chainId: BigInt!
-  preparedTimestamp: BigInt!
+#   # TransactionFulfilled
+#   relayerFee: BigInt
+#   signature: Bytes
+#   callData: String
+#   externalCallSuccess: Boolean
+#   externalCallReturnData: Bytes
+#   fulfillCaller: Bytes
+#   fulfillTransactionHash: Bytes
+#   fulfillTimestamp: BigInt
+#   # fulfillBlockNumber: BigInt!
 
-  # TransactionData
-  receivingChainTxManagerAddress: Bytes!
-  user: User!
-  router: Router!
-  sendingAssetId: Bytes!
-  receivingAssetId: Bytes!
-  sendingChainFallback: Bytes!
-  callTo: Bytes!
-  receivingAddress: Bytes!
-  callDataHash: Bytes!
-  transactionId: Bytes!
-  sendingChainId: BigInt!
-  receivingChainId: BigInt!
-  amount: BigInt!
-  expiry: BigInt!
-  preparedBlockNumber: BigInt!
+#   # TransactionCancelled
+#   cancelCaller: Bytes
+#   cancelTransactionHash: Bytes
+# }
 
-  # TransactionPrepared
-  encryptedCallData: String!
-  prepareCaller: Bytes
-  bidSignature: Bytes!
-  encodedBid: Bytes!
-  prepareTransactionHash: Bytes!
-
-  # TransactionFulfilled
-  relayerFee: BigInt
-  signature: Bytes
-  callData: String
-  externalCallSuccess: Boolean
-  externalCallReturnData: Bytes
-  fulfillCaller: Bytes
-  fulfillTransactionHash: Bytes
-  fulfillTimestamp: BigInt
-  # fulfillBlockNumber: BigInt!
-
-  # TransactionCancelled
-  cancelCaller: Bytes
-  cancelTransactionHash: Bytes
-}
-
-# User entity keeps track of active user transactions
-type User @entity {
-  id: ID!
-  transactions: [Transaction!]! @derivedFrom(field: "user")
-}
+# # User entity keeps track of active user transactions
+# type User @entity {
+#   id: ID!
+#   transactions: [Transaction!]! @derivedFrom(field: "user")
+# }

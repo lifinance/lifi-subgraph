@@ -6,21 +6,45 @@ import { ILiFi } from "../Interfaces/ILiFi.sol";
 import { IHopBridge } from "../Interfaces/IHopBridge.sol";
 import { LibAsset } from "../Libraries/LibAsset.sol";
 import { LibSwap } from "../Libraries/LibSwap.sol";
-import { AppStorage } from "../Libraries/AppStorage.sol";
+import { LibDiamond } from "../Libraries/LibDiamond.sol";
 
 contract HopFacet is ILiFi {
-    /* ========== App Storage ========== */
+    /* ========== Storage ========== */
 
-    AppStorage internal s;
+    bytes32 internal constant NAMESPACE = keccak256("com.lifi.facets.hop");
+    struct Storage {
+        mapping(string => IHopBridge.BridgeConfig) hopBridges;
+        uint256 hopChainId;
+    }
 
     /* ========== Types ========== */
 
     struct HopData {
+        string asset;
+        address recipient;
         uint256 chainId;
         uint256 amount;
-        uint256 relayerFee;
-        address assetId;
-        address recipient;
+        uint256 bonderFee;
+        uint256 amountOutMin;
+        uint256 deadline;
+        uint256 destinationAmountOutMin;
+        uint256 destinationDeadline;
+    }
+
+    /* ========== Init ========== */
+
+    function initHop(
+        string[] memory _tokens,
+        IHopBridge.BridgeConfig[] memory _bridgeConfigs,
+        uint256 _chainId
+    ) external {
+        Storage storage s = getStorage();
+        LibDiamond.enforceIsContractOwner();
+
+        for (uint8 i; i < _tokens.length; i++) {
+            s.hopBridges[_tokens[i]] = _bridgeConfigs[i];
+        }
+        s.hopChainId = _chainId;
     }
 
     /* ========== Public Bridge Functions ========== */
@@ -31,7 +55,17 @@ contract HopFacet is ILiFi {
      * @param _hopData data specific to Hop Protocol
      */
     function startBridgeTokensViaHop(LiFiData memory _lifiData, HopData calldata _hopData) public payable {
-        LibAsset.transferFromERC20(_hopData.assetId, msg.sender, address(this), _hopData.amount);
+        address sendingAssetId = _bridge(_hopData.asset).token;
+
+        if (sendingAssetId == address(0)) require(msg.value == _hopData.amount, "ERR_INVALID_AMOUNT");
+        else {
+            uint256 _sendingAssetIdBalance = LibAsset.getOwnBalance(sendingAssetId);
+            LibAsset.transferFromERC20(sendingAssetId, msg.sender, address(this), _hopData.amount);
+            require(
+                LibAsset.getOwnBalance(sendingAssetId) - _sendingAssetIdBalance == _hopData.amount,
+                "ERR_INVALID_AMOUNT"
+            );
+        }
 
         _startBridge(_hopData);
 
@@ -57,17 +91,22 @@ contract HopFacet is ILiFi {
     function swapAndStartBridgeTokensViaHop(
         LiFiData memory _lifiData,
         LibSwap.SwapData[] calldata _swapData,
-        HopData calldata _hopData
+        HopData memory _hopData
     ) public payable {
-        address fromToken = _hopData.assetId;
-        uint256 _fromTokenBalance = LibAsset.getOwnBalance(fromToken);
+        address sendingAssetId = _bridge(_hopData.asset).token;
+
+        uint256 _sendingAssetIdBalance = LibAsset.getOwnBalance(sendingAssetId);
 
         // Swap
         for (uint8 i; i < _swapData.length; i++) {
             LibSwap.swap(_lifiData.transactionId, _swapData[i]);
         }
 
-        require(LibAsset.getOwnBalance(fromToken) - _fromTokenBalance >= _hopData.amount, "ERR_INVALID_AMOUNT");
+        uint256 _postSwapBalance = LibAsset.getOwnBalance(sendingAssetId) - _sendingAssetIdBalance;
+
+        require(_postSwapBalance > 0, "ERR_INVALID_AMOUNT");
+
+        _hopData.amount = _postSwapBalance;
 
         _startBridge(_hopData);
 
@@ -90,35 +129,62 @@ contract HopFacet is ILiFi {
      * @dev Conatains the business logic for the bridge via Hop Protocol
      * @param _hopData data specific to Hop Protocol
      */
-    function _startBridge(HopData calldata _hopData) internal {
+    function _startBridge(HopData memory _hopData) internal {
+        Storage storage s = getStorage();
+        address sendingAssetId = _bridge(_hopData.asset).token;
+
+        address bridge;
+        if (s.hopChainId == 1) {
+            bridge = _bridge(_hopData.asset).bridge;
+        } else {
+            bridge = _bridge(_hopData.asset).ammWrapper;
+        }
+
         // Do HOP stuff
         require(s.hopChainId != _hopData.chainId, "Cannot bridge to the same network.");
 
-        LibAsset.approveERC20(IERC20(_hopData.assetId), address(s.hopBridges[_hopData.assetId]), _hopData.amount);
+        // Give Hop approval to bridge tokens
+        LibAsset.approveERC20(IERC20(sendingAssetId), bridge, _hopData.amount);
 
-        // Give Connext approval to bridge tokens
-        LibAsset.approveERC20(IERC20(_hopData.assetId), address(s.hopBridges[_hopData.assetId]), _hopData.amount);
+        uint256 value = LibAsset.isNativeAsset(address(sendingAssetId)) ? _hopData.amount : 0;
 
         if (s.hopChainId == 1) {
             // Ethereum L1
-            IHopBridge(s.hopBridges[_hopData.assetId]).sendToL2(
+            IHopBridge(bridge).sendToL2{ value: value }(
                 _hopData.chainId,
                 _hopData.recipient,
                 _hopData.amount,
-                0,
-                0,
+                _hopData.destinationAmountOutMin,
+                _hopData.destinationDeadline,
                 address(0),
                 0
             );
         } else {
             // L2
-            IHopBridge(s.hopBridges[_hopData.assetId]).send(
+            // solhint-disable-next-line check-send-result
+            IHopBridge(bridge).swapAndSend{ value: value }(
                 _hopData.chainId,
                 _hopData.recipient,
                 _hopData.amount,
-                0,
-                0
+                _hopData.bonderFee,
+                _hopData.amountOutMin,
+                _hopData.deadline,
+                _hopData.destinationAmountOutMin,
+                _hopData.destinationDeadline
             );
+        }
+    }
+
+    function _bridge(string memory _asset) internal view returns (IHopBridge.BridgeConfig memory) {
+        Storage storage s = getStorage();
+        return s.hopBridges[_asset];
+    }
+
+    function getStorage() internal pure returns (Storage storage s) {
+        bytes32 namespace = NAMESPACE;
+        // solhint-disable-next-line no-inline-assembly
+        assembly {
+            s.slot := namespace
         }
     }
 }

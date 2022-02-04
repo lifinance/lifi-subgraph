@@ -22,11 +22,13 @@ contract LiFiDiamond {
 
     // Find facet for function that is called and execute the
     // function if a facet is found and return any value.
+    // solhint-disable-next-line no-complex-fallback
     fallback() external payable {
         LibDiamond.DiamondStorage storage ds;
         bytes32 position = LibDiamond.DIAMOND_STORAGE_POSITION;
 
         // get diamond storage
+        // solhint-disable-next-line no-inline-assembly
         assembly {
             ds.slot := position
         }
@@ -36,6 +38,7 @@ contract LiFiDiamond {
         require(facet != address(0), "Diamond: Function does not exist");
 
         // Execute external function from facet using delegatecall and return any value.
+        // solhint-disable-next-line no-inline-assembly
         assembly {
             // copy function selector and any arguments
             calldatacopy(0, 0, calldatasize())
@@ -55,5 +58,6 @@ contract LiFiDiamond {
     }
 
     // Able to receive ether
+    // solhint-disable-next-line no-empty-blocks
     receive() external payable {}
 }

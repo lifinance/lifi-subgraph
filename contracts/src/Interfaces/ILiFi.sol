@@ -36,4 +36,28 @@ interface ILiFi {
         uint256 amount,
         uint256 timestamp
     );
+
+    event LiFiTransferConfirmed(
+        bytes32 indexed transactionId,
+        string integrator,
+        address referrer,
+        address sendingAssetId,
+        address receivingAssetId,
+        address receiver,
+        uint256 amount,
+        uint256 destinationChainId,
+        uint256 timestamp
+    );
+    event LiFiTransferRefunded(
+        bytes32 indexed transactionId,
+        string integrator,
+        address referrer,
+        address sendingAssetId,
+        address receivingAssetId,
+        address receiver,
+        uint256 amount,
+        uint256 destinationChainId,
+        uint256 timestamp
+    );
+    event Inited(address indexed bridge, uint64 chainId);
 }

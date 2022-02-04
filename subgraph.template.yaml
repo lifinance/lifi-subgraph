@@ -28,33 +28,4 @@ dataSources:
       eventHandlers:
         - event: LiFiTransferStarted(indexed bytes32,string,address,address,address,address,uint256,uint256,uint256)
           handler: handleLiFiTransferStarted
-                  # emit LiFiTransferStarted(
-                  #     _lifiData.transactionId,
-                  #     _lifiData.integrator,
-                  #     _lifiData.referrer,
-                  #     _lifiData.fromAssetId,
-                  #     _lifiData.fromAmount,
-                  #     _lifiData.timestamp
-                  # );
-        # - event: LiquidityRemoved(indexed address,indexed address,uint256,address)
-        #   handler: handleLiquidityRemoved
-        # - event: TransactionCancelled(indexed address,indexed address,indexed bytes32,(address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256),address)
-        #   handler: handleTransactionCancelled
-        # - event: TransactionFulfilled(indexed address,indexed address,indexed bytes32,(address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256),uint256,bytes,bytes,bool,bytes,address)
-        #   handler: handleTransactionFulfilled
-              # emit TransactionFulfilled(
-              #   txData.user,
-              #   txData.router,
-              #   txData.transactionId,
-              #   txData,
-              #   relayerFee,
-              #   signature,
-              #   callData,
-              #   success,
-              #   isContract,
-              #   returnData,
-              #   msg.sender
-              # );
-        # - event: TransactionPrepared(indexed address,indexed address,indexed bytes32,(address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256),address,bytes,bytes,bytes)
-        #   handler: handleTransactionPrepared
       file: ./src/mapping.ts

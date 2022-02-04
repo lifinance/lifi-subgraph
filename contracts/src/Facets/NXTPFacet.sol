@@ -6,12 +6,15 @@ import { ITransactionManager } from "../Interfaces/ITransactionManager.sol";
 import { ILiFi } from "../Interfaces/ILiFi.sol";
 import { LibAsset } from "../Libraries/LibAsset.sol";
 import { LibSwap } from "../Libraries/LibSwap.sol";
-import { AppStorage } from "../Libraries/AppStorage.sol";
+import { LibDiamond } from "../Libraries/LibDiamond.sol";
 
 contract NXTPFacet is ILiFi {
-    /* ========== App Storage ========== */
+    /* ========== Storage ========== */
 
-    AppStorage internal s;
+    bytes32 internal constant NAMESPACE = keccak256("com.lifi.facets.nxtp");
+    struct Storage {
+        ITransactionManager nxtpTxManager;
+    }
 
     /* ========== Events ========== */
 
@@ -21,6 +24,14 @@ contract NXTPFacet is ILiFi {
         ITransactionManager.TransactionData txData
     );
 
+    /* ========== Init ========== */
+
+    function initNXTP(ITransactionManager _txMgrAddr) external {
+        Storage storage s = getStorage();
+        LibDiamond.enforceIsContractOwner();
+        s.nxtpTxManager = _txMgrAddr;
+    }
+
     /* ========== Public Bridge Functions ========== */
 
     /**
@@ -28,7 +39,7 @@ contract NXTPFacet is ILiFi {
      * @param _lifiData data used purely for tracking and analytics
      * @param _nxtpData data needed to complete an NXTP cross-chain transaction
      */
-    function startBridgeTokensViaNXTP(LiFiData memory _lifiData, ITransactionManager.PrepareArgs calldata _nxtpData)
+    function startBridgeTokensViaNXTP(LiFiData memory _lifiData, ITransactionManager.PrepareArgs memory _nxtpData)
         public
         payable
     {
@@ -70,7 +81,7 @@ contract NXTPFacet is ILiFi {
     function swapAndStartBridgeTokensViaNXTP(
         LiFiData memory _lifiData,
         LibSwap.SwapData[] calldata _swapData,
-        ITransactionManager.PrepareArgs calldata _nxtpData
+        ITransactionManager.PrepareArgs memory _nxtpData
     ) public payable {
         address sendingAssetId = _nxtpData.invariantData.sendingAssetId;
         uint256 _sendingAssetIdBalance = LibAsset.getOwnBalance(sendingAssetId);
@@ -80,10 +91,11 @@ contract NXTPFacet is ILiFi {
             LibSwap.swap(_lifiData.transactionId, _swapData[i]);
         }
 
-        require(
-            LibAsset.getOwnBalance(sendingAssetId) - _sendingAssetIdBalance >= _nxtpData.amount,
-            "ERR_INVALID_AMOUNT"
-        );
+        uint256 _postSwapBalance = LibAsset.getOwnBalance(sendingAssetId) - _sendingAssetIdBalance;
+
+        require(_postSwapBalance > 0, "ERR_INVALID_AMOUNT");
+
+        _nxtpData.amount = _postSwapBalance;
 
         _startBridge(_lifiData.transactionId, _nxtpData);
 
@@ -160,18 +172,27 @@ contract NXTPFacet is ILiFi {
 
     /* ========== Internal Functions ========== */
 
-    function _startBridge(bytes32 _transactionId, ITransactionManager.PrepareArgs calldata _nxtpData) internal {
+    function _startBridge(bytes32 _transactionId, ITransactionManager.PrepareArgs memory _nxtpData) internal {
+        Storage storage s = getStorage();
         IERC20 sendingAssetId = IERC20(_nxtpData.invariantData.sendingAssetId);
 
         // Give Connext approval to bridge tokens
         LibAsset.approveERC20(IERC20(sendingAssetId), address(s.nxtpTxManager), _nxtpData.amount);
 
-        uint256 value = LibAsset.isNativeAsset(address(sendingAssetId)) ? msg.value : 0;
+        uint256 value = LibAsset.isNativeAsset(address(sendingAssetId)) ? _nxtpData.amount : 0;
 
         // Initiate bridge transaction on sending chain
         ITransactionManager.TransactionData memory result = s.nxtpTxManager.prepare{ value: value }(_nxtpData);
 
         emit NXTPBridgeStarted(_transactionId, result.transactionId, result);
+    }
+
+    function getStorage() internal pure returns (Storage storage s) {
+        bytes32 namespace = NAMESPACE;
+        // solhint-disable-next-line no-inline-assembly
+        assembly {
+            s.slot := namespace
+        }
     }
 
     /* ========== Getter Functions ========== */
@@ -180,6 +201,7 @@ contract NXTPFacet is ILiFi {
      * @notice show the NXTP transaction manager contract address
      */
     function getNXTPTransactionManager() external view returns (address) {
+        Storage storage s = getStorage();
         return address(s.nxtpTxManager);
     }
 }

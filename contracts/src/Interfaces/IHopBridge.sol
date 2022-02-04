@@ -2,6 +2,12 @@
 pragma solidity ^0.8.7;
 
 interface IHopBridge {
+    struct BridgeConfig {
+        address token;
+        address bridge;
+        address ammWrapper;
+    }
+
     function sendToL2(
         uint256 chainId,
         address recipient,
@@ -12,11 +18,14 @@ interface IHopBridge {
         uint256 relayerFee
     ) external payable;
 
-    function send(
+    function swapAndSend(
         uint256 chainId,
         address recipient,
         uint256 amount,
-        uint256 relayerFee,
-        uint256 deadline
-    ) external;
+        uint256 bonderFee,
+        uint256 amountOutMin,
+        uint256 deadline,
+        uint256 destinationAmountOutMin,
+        uint256 destinationDeadline
+    ) external payable;
 }

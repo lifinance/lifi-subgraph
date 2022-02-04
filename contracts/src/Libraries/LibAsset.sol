@@ -12,6 +12,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  *         conventions and any noncompliant ERC20 transfers
  */
 library LibAsset {
+    uint256 private constant MAX_INT = 2**256 - 1;
+
     /**
      * @dev All native assets use the empty address for their asset id
      *      by convention
@@ -43,6 +45,7 @@ library LibAsset {
      * @param amount Amount to send to given recipient
      */
     function transferNativeAsset(address payable recipient, uint256 amount) internal {
+        // solhint-disable-next-line avoid-low-level-calls
         (bool success, ) = recipient.call{ value: amount }("");
         require(success, "#TNA:028");
     }
@@ -59,10 +62,11 @@ library LibAsset {
         uint256 amount
     ) internal {
         if (isNativeAsset(address(assetId))) return;
-
         uint256 allowance = assetId.allowance(address(this), spender);
-        if (allowance > 0) SafeERC20.safeApprove(IERC20(assetId), spender, 0);
-        SafeERC20.safeIncreaseAllowance(IERC20(assetId), spender, amount);
+        if (allowance < amount) {
+            if (allowance > 0) SafeERC20.safeApprove(IERC20(assetId), spender, 0);
+            SafeERC20.safeApprove(IERC20(assetId), spender, MAX_INT);
+        }
     }
 
     /**
