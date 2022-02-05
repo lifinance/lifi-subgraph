@@ -2,11 +2,13 @@ type LiFiTransfer @entity {
   id: ID!
   bridge: String!
 
+  fromUser: User!
   fromAddress: Bytes!
   fromAmount: BigInt!
   fromChainId: Int!
   fromTokenAddress: Bytes!
 
+  toUser: User!
   toAddress: Bytes!
   toChainId: Int!
   toTokenAddress: Bytes!
@@ -19,4 +21,12 @@ type LiFiTransfer @entity {
   integrator: String!
   referrer: Bytes!
   transactionHash: Bytes!
+}
+
+# User entity keeps track of related transactions
+type User @entity {
+  id: ID!
+  address: Bytes!
+  sentTransfers: [LiFiTransfer!]! @derivedFrom(field: "fromUser")
+  receivedTransfers: [LiFiTransfer!]! @derivedFrom(field: "toUser")
 }
