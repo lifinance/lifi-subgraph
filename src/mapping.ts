@@ -1,5 +1,5 @@
-import { dataSource } from '@graphprotocol/graph-ts'
-import { LiFiTransferStarted } from '../generated/LiFiDiamond/LiFiDiamond'
+import { Address, dataSource } from '@graphprotocol/graph-ts'
+import { LiFiTransferStarted, NXTPBridgeStarted } from '../generated/LiFiDiamond/LiFiDiamond'
 import { LiFiTransfer, User } from '../generated/schema'
 
 /*
@@ -135,14 +135,36 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   lifiTransfer.toTokenAddress = event.params.receivingAssetId
   lifiTransfer.toChainId = event.params.destinationChainId.toI32()
 
-  lifiTransfer.bridge = bridge
   lifiTransfer.hasSourceSwap = hasSourceSwap
+  lifiTransfer.hasDestinationSwap = lifiTransfer.hasDestinationSwap || false
+  lifiTransfer.hasServerSign = lifiTransfer.hasServerSign || false
+
+  lifiTransfer.bridge = bridge
   lifiTransfer.integrator = event.params.integrator
   lifiTransfer.referrer = event.params.referrer
   lifiTransfer.gasLimit = event.transaction.gasLimit
   lifiTransfer.gasPrice = event.transaction.gasPrice
   lifiTransfer.timestamp = event.params.timestamp
   lifiTransfer.transactionHash = event.transaction.hash
+
+  // save changes
+  lifiTransfer.save()
+}
+
+/*
+* @param event - The contract event to update the subgraph record with
+*/
+export function handleNXTPBridgeStarted(event: NXTPBridgeStarted): void {
+  // load or create entity for transactionId
+  let transferId = event.params.lifiTransactionId.toHex()
+  let lifiTransfer = LiFiTransfer.load(transferId)
+  if (lifiTransfer == null) {
+    lifiTransfer = new LiFiTransfer(transferId)
+  }
+
+  // store event data in entity
+  lifiTransfer.hasDestinationSwap = !event.params.txData.callTo.equals(Address.zero())
+  lifiTransfer.hasServerSign = event.params.txData.user.equals(Address.fromString('0x997f29174a766A1DA04cf77d135d59Dd12FB54d1'))
 
   // save changes
   lifiTransfer.save()
