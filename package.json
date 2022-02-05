@@ -2,16 +2,16 @@
   "name": "lifi-graph",
   "license": "UNLICENSED",
   "scripts": {
-    "prepare": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare": "mustache config/develop.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy  --product hosted-service maxklenk/lifi-pol",
+    "deploy": "graph deploy  --product hosted-service maxklenk/lifi-develop",
     "develop": "yarn prepare && yarn codegen && yarn build && yarn deploy",
     "test": "graph test lifi",
 
-    "create-local": "graph create --node http://localhost:8020/ maxklenk/lifi-pol",
-    "remove-local": "graph remove --node http://localhost:8020/ maxklenk/lifi-pol",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 maxklenk/lifi-pol",
+    "create-local": "graph create --node http://localhost:8020/ maxklenk/lifi-develop",
+    "remove-local": "graph remove --node http://localhost:8020/ maxklenk/lifi-develop",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 maxklenk/lifi-develop",
 
     "prepare:arb": "mustache config/arb.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:ava": "mustache config/ava.prod.json subgraph.template.yaml > subgraph.yaml",

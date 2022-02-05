@@ -1,18 +1,22 @@
 type LiFiTransfer @entity {
   id: ID!
-  integrator: String!
-  referrer: Bytes!
-  sendingAssetId: Bytes!
-  receivingAssetId: Bytes!
-  receiver: Bytes!
-  amount: BigInt!
-  destinationChainId: BigInt!
-  timestamp: BigInt!
-  sender: Bytes!
+  bridge: String!
+
+  fromAddress: Bytes!
+  fromAmount: BigInt!
+  fromChainId: Int!
+  fromTokenAddress: Bytes!
+
+  toAddress: Bytes!
+  toChainId: Int!
+  toTokenAddress: Bytes!
+
+  hasSourceSwap: Boolean!
+
   gasLimit: BigInt!
   gasPrice: BigInt!
+  timestamp: BigInt!
+  integrator: String!
+  referrer: Bytes!
   transactionHash: Bytes!
-  bridge: String
-  hasSourceSwap: Boolean
-  # hasDestinationCall: Boolean
 }
