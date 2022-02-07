@@ -1,13 +1,10 @@
-# LiFi contract Subgraph
+# Li.Fi Subgraph
 
-# Deploy a subgraph to Legacy Explorer
-Currently, subgraphs on chains other than Ethereum Mainnet need to be deployed to the Legacy Explorer. 
-Here, we're using Connext's NXTP subgraph as a template and modifying it according to our needs. 
-
-# Get Started
-Subgraphs are used to extract data from a particular smart contract on any of the EVM compatible blockchains. 
+This repository is set up to deploy a subgraph to theGraph. The same subgraph works on call chains where the Li.Fi Contract is currently deployed.
 
 # Setup
+Subgraphs are used to extract data from a particular smart contract on any of the EVM compatible blockchains. 
+
 <br>You'll get started here by creating a subgraph and authorizing your graph cli.
 
 ### Step 1:
@@ -35,14 +32,8 @@ You can find the <ACCESS_TOKEN> in your Legacy Explorer Dashboard [here](https:/
 ### Step 5:
 Clone this repo using your command line. 
 ```
-git clone https://github.com/lifinance/custom_nxtp.git
+git clone git@github.com:lifinance/lifi-subgraph.git
 ```
-OR
-You can also initiate with a scaffold code provided by The Graph, you'll not have the code we have for Connext's smart contracts. Personally, I prefer modifying an existing code. <br>
-```
-graph init --product hosted-service <GITHUB_USER>/<SUBGRAPH NAME>
-```
-If you do this, you can skip the next step. 
 
 ### Step 6: 
 Install all the node modules. 
@@ -51,14 +42,14 @@ yarn install
 ```
 
 
-# Modifying to reuse Connext's subgraph
-Here you'll learn how to use the existing Connext's subgraph to modify and deploy for your needs. 
+# Modifying to the subgraph
+Here you'll learn how to use the existing subgraph to modify and deploy for your needs. 
 
 ## The files that matter
-1. **custom_nxtp/schema.graphql** - The schema or the data format we'll be query in. 
-2. **custom_nxtp/src/mapping.ts** - The typescript where you map various data points to the variables in the schema. 
-3. **custom_nxtp/subgraph.template.yaml** - The template where we define the different smart contract events we'll be listening to. 
-4. **custom_nxtp/package.json** - This is where we have yarn commands that need to be changed to deploy to your Graph account.  
+1. **./schema.graphql** - The schema or the data format we'll be query in. 
+2. **./src/mapping.ts** - The typescript where you map various data points to the variables in the schema. 
+3. **./subgraph.template.yaml** - The template where we define the different smart contract events we'll be listening to. 
+4. **./package.json** - This is where we have yarn commands that need to be changed to deploy to your Graph account.  
 
 ## Modifying the schema and it's mapping. 
 Please go through the schema to understand various entities and their types. I will not be going through what they mean right now(maybe I'll, in the future). <br>
@@ -72,16 +63,24 @@ If you have the same contract deployed on multiple L2 side chains, then you can 
 If you go through the **subgraph.template.yaml** file, you'll find 3 variables {{network}}, {{address}} and {{startBlock}}. This is a template file we're using to create the actual file we need for deployment, which is **subgraph.yaml**. So, we have yarn commands on package.json which substitutes the above variables with the actual values for the chain we're deploying. 
 
 Now, how does yarn know where to get these values from? <br>
-It's under **custom_nxtp/config/**, each file there has data of the contract present on a particular chain. You can modify a file and/or create another file with respective data for new chain. 
+It's under **./config/**, each file there has data of the contract present on a particular chain. You can modify a file and/or create another file with respective data for new chain. 
 
 ### Configuring for new chains
 Alright, where's the code that replaces the variables in the **subgraph.template.yaml** file and replaces **subgraph.yaml** with new data? <br>
 Please go to _package.json_ to figure out what commands achieve what purpose. 
 1. To create the **subgraph.yaml** file: **yarn prepare:[chain]:prod**, this command uses mustache(library) to take variables from the file specified and substitute in the template file and create the modified **subgraph.yaml** file. Please modify these commands to your needs
 2. **yarn deploy:[chain]:prod** - This commands executes the prepare command above and deploys to the subgraph defined in this command. 
-3. Replace **0xakshay/nxtpmatic** with your subgraph, i.e., **[YOUR_GITHUB_USERNAME]/[YOUR_SUBGRAPH_NAME]**
+3. Replace **maxklenk/lifi-[chain]** with your subgraph, i.e., **[YOUR_GITHUB_USERNAME]/[YOUR_SUBGRAPH_NAME]**
 
-## Deploying
+
+## Developing
+To test your changes you can depoloy the graph and check if everything parses right. 
+
+```
+yarn develop
+```
+
+## Deploying to production
 Once you have everything ready for your particular chain(s), you can generate necessary files and deploy easily. 
 ### Step 1: 
 This is the procedure to deploy/redeploy the subgraph, always. 
@@ -91,9 +90,10 @@ yarn codegen
 
 ### Step 2:
 ```
-yarn deploy:matic:prod
+yarn deploy:all
 ```
 That's it. your subgraphs are deployed, check out their page on your dashboard to query or see if they're synced. 
+
 
 ## Redeploying
 Every time you deploy you need to execute the above commands. If you're building these files from scratch, it'd be better to look into deploying locally before deploying again and again to The Graph. Check out the **create-local** command on **package.yaml**.
@@ -148,107 +148,3 @@ Copy paste the following query:
 }
 ```
 That's it, you should be able to see the error, fix it and redeploy it. :)
-
-# Relevant Events in Lifi Contracts
-
-## 1. NXTPFacet.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Facets/NXTPFacet.sol)
-```
-Line: 69    emit LiFiTransferStarted(
-                _lifiData.transactionId,
-                _lifiData.integrator,
-                _lifiData.referrer,
-                _lifiData.timestamp
-            );
-```
-
-## 2. NXTPFacet.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Facets/NXTPFacet.sol)
-```
-Line: 101    emit LiFiTransferStarted(
-                _lifiData.transactionId,
-                _lifiData.integrator,
-                _lifiData.referrer,
-                _lifiData.timestamp
-            );
-```
-
-## 3. NXTPFacet.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Facets/NXTPFacet.sol)
-```
-Line: 69    emit LiFiTransferCompleted(
-                _lifiData.transactionId,
-                _lifiData.integrator,
-                _lifiData.referrer,
-                _lifiData.timestamp
-            );
-```
-
-## 4. NXTPFacet.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Facets/NXTPFacet.sol)
-```
-Line: 69    emit LiFiTransferCompleted(
-                _lifiData.transactionId,
-                _lifiData.integrator,
-                _lifiData.referrer,
-                _lifiData.timestamp
-            );
-```
-
-## 5. NXTPFacet.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Facets/NXTPFacet.sol)
-```
-Line: 78        
-        emit NXTPBridgeStarted(
-            result.user,
-            result.router,
-            result.transactionId,
-            result,
-            msg.sender,
-            _nxtpData.encryptedCallData,
-            _nxtpData.encodedBid,
-            _nxtpData.bidSignature
-        );
-```
-
-## 6. LibLiFi.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Libraries/LibLiFi.sol)
-```
-Line: 29        emit AssetSwapped(_swapData.fromToken, _swapData.toToken, _swapData.fromAmount, _swapData.toAmount);
-```
-
-## 7. LibDiamond.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Libraries/LibDiamond.sol)
-```
-Line: 78        emit DiamondCut(_diamondCut, _init, _calldata);
-```
-
-## 8. LibDiamond.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Libraries/LibDiamond.sol)
-```
-Line: 47        emit OwnershipTransferred(previousOwner, _newOwner);
-```
-
-## 9. WithdrawFacet.sol
-[File Link](https://github.com/lifinance/lifi-contracts/blob/master/src/Facets/WithdrawFacet.sol)
-```
-Line: 37        emit LogWithdraw(sendTo, _assetAddress, _amount);
-```
-
-Contract address: 
-```
-0xa74D44ed9C3BB96d7676E7A274c33A05210cf35a
-```
-goerli
-rinkeby
-ropsten
-mumbai
-polygon
-xdai
-bsc
-fantom
-
-
-
-## Thank you
-I'll be adding more information here as I learn more about subgraph deployment to the Legacy Explorer. 
