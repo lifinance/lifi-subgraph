@@ -23,6 +23,10 @@ type LiFiTransfer @entity {
   integrator: String!
   referrer: Bytes!
   transactionHash: Bytes!
+
+  swapExchangeAddress: Bytes
+  swapTokenAddress: Bytes
+  swapFromAmount: BigInt
 }
 
 # User entity keeps track of related transactions
@@ -31,4 +35,13 @@ type User @entity {
   address: Bytes!
   sentTransfers: [LiFiTransfer!]! @derivedFrom(field: "fromUser")
   receivedTransfers: [LiFiTransfer!]! @derivedFrom(field: "toUser")
+}
+
+type DestinationSwap @entity {
+  id: ID!
+  transactionHash: Bytes!
+
+  swapExchangeAddress: Bytes
+  swapTokenAddress: Bytes
+  swapFromAmount: BigInt
 }

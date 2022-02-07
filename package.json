@@ -32,7 +32,8 @@
     "deploy:ftm": "yarn prepare:ftm && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-ftm",
     "deploy:mor": "yarn prepare:mor && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-mor",
     "deploy:opt": "yarn prepare:opt && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-opt",
-    "deploy:pol": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-pol"
+    "deploy:pol": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ maxklenk/lifi-pol",
+    "deploy:all": "yarn deploy:arb && yarn deploy:ava && yarn deploy:bsc && yarn deploy:dai && yarn deploy:eth && yarn deploy:ftm && yarn deploy:mor && yarn deploy:opt && yarn deploy:pol"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.26.0",
