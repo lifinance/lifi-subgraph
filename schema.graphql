@@ -29,6 +29,16 @@ type LiFiTransfer @entity {
   swapFromAmount: BigInt
 }
 
+type LiFiSwap @entity {
+  id: ID!
+  integrator: String!
+  referrer: Bytes!
+  fromAssetId: Bytes!
+  toAssetId: Bytes!
+  fromAmount: BigInt!
+  toAmount: BigInt!
+}
+
 # User entity keeps track of related transactions
 type User @entity {
   id: ID!
