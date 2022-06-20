@@ -12,9 +12,10 @@ type LiFiTransfer @entity {
   toAddress: Bytes!
   toChainId: Int!
   toTokenAddress: Bytes!
+  toAmount: BigInt
 
   hasSourceSwap: Boolean!
-  hasDestinationSwap: Boolean!
+  hasDestinationCall: Boolean!
   hasServerSign: Boolean!
 
   gasLimit: BigInt!
@@ -27,6 +28,8 @@ type LiFiTransfer @entity {
   swapExchangeAddress: Bytes
   swapTokenAddress: Bytes
   swapFromAmount: BigInt
+
+  receivingAssetId: Bytes!
 }
 
 type LiFiSwap @entity {

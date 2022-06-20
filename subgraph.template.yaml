@@ -26,12 +26,14 @@ dataSources:
         - name: LiFiDiamond
           file: ./abis/LiFiDiamond.json
       eventHandlers:
-        - event: LiFiTransferStarted(indexed bytes32,string,address,address,address,address,uint256,uint256,uint256)
+        - event: LiFiTransferStarted(indexed bytes32,string,string,string,address,address,address,address,uint256,uint256,bool,bool)
           handler: handleLiFiTransferStarted
-        - event: AssetSwapped(bytes32,address,address,address,uint256,uint256,uint256)
-          handler: handleAssetSwapped
-        - event: NXTPBridgeStarted(indexed bytes32,bytes32,(address,address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256))
-          handler: handleNXTPBridgeStarted
+        - event: LiFiTransferCompleted(indexed bytes32,address,address,uint256,uint256)
+          handler: handleLifiTransferCompleted
+        - event: LiFiSwappedGeneric(indexed bytes32,string,address,address,address,uint256,uint256)
+          handler: handleLiFiSwappedGeneric
+        # - event: NXTPBridgeStarted(indexed bytes32,bytes32,(address,address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256))
+        # handler: handleNXTPBridgeStarted
         # - event: DiamondCut((address,uint8,bytes4[])[],address,bytes)
         # - event: Inited(indexed address,uint64)
         # - event: LiFiTransferCompleted(indexed bytes32,address,address,uint256,uint256)
