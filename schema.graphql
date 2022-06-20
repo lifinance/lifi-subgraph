@@ -21,6 +21,7 @@ type LiFiTransfer @entity {
   gasLimit: BigInt!
   gasPrice: BigInt!
   timestamp: BigInt!
+  transferCompletedTimestamp: BigInt
   integrator: String!
   referrer: Bytes!
   transactionHash: Bytes!

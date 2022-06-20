@@ -29,7 +29,7 @@ dataSources:
         - event: LiFiTransferStarted(indexed bytes32,string,string,string,address,address,address,address,uint256,uint256,bool,bool)
           handler: handleLiFiTransferStarted
         - event: LiFiTransferCompleted(indexed bytes32,address,address,uint256,uint256)
-          handler: handleLifiTransferCompleted
+          handler: handleLiFiTransferCompleted
         - event: LiFiSwappedGeneric(indexed bytes32,string,address,address,address,uint256,uint256)
           handler: handleLiFiSwappedGeneric
         # - event: NXTPBridgeStarted(indexed bytes32,bytes32,(address,address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256))
