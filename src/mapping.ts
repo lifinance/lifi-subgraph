@@ -1,4 +1,4 @@
-import { Address, Bytes, dataSource, log } from '@graphprotocol/graph-ts'
+import { dataSource, log } from '@graphprotocol/graph-ts'
 import { LiFiTransferCompleted, LiFiTransferStarted, LiFiSwappedGeneric, AssetSwapped } from '../generated/LiFiDiamond/LiFiDiamond'
 import { LiFiTransfer, User, LiFiSwap, Swap, LiFiTransferDestinationSide } from '../generated/schema'
 
@@ -73,7 +73,6 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
   const bridge = event.params.bridge
 
-  // it might happen that we don't know the bridge signature yet. in this case we skip the transaction
   // fromAddress
     const fromAddress = event.transaction.from
     let fromUser = User.load(fromAddress.toHex())
