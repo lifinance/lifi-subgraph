@@ -212,6 +212,7 @@ export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
   swap.fromAmount = event.params.fromAmount
   swap.toAmount = event.params.toAmount
   swap.timestamp = event.block.timestamp
+  swap.transactionHash = event.transaction.hash
 
 
   let lifiSwap = LiFiSwap.load(transferId)
