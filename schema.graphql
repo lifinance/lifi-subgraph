@@ -54,6 +54,7 @@ type LiFiSwap @entity {
   id: ID!
   integrator: String!
   referrer: Bytes!
+  timestamp: BigInt!
   swap: Swap!
 }
 

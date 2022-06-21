@@ -70,13 +70,11 @@ function parseChainId(network: string): i32 {
 * @param event - The contract event to update the subgraph record with
 */
 export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
-  // parse bridge
+
   const bridge = event.params.bridge
-  //console.log('handleLiFiTransferStarted bridge', bridge)
 
   // it might happen that we don't know the bridge signature yet. in this case we skip the transaction
-  if (bridge) {
-    // fromAddress
+  // fromAddress
     const fromAddress = event.transaction.from
     let fromUser = User.load(fromAddress.toHex())
     if (fromUser == null) {
@@ -131,7 +129,6 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
     // save changes
     lifiTransfer.save()
-  }
 }
 
 /*
@@ -205,16 +202,19 @@ export function handleAssetSwapped(event: AssetSwapped): void {
   let lifiTransfer = LiFiTransfer.load(transferId)
 
   if (lifiTransfer) {
-    //const isSender = !!lifiTransfer.bridge
     let lifiSwap = new LiFiSwap(transferId)
+    lifiSwap.timestamp = event.block.timestamp
     lifiTransfer.sourceSwap = lifiSwap.id
+    lifiSwap.save()
     lifiTransfer.save()
   }
 
   let lifiTransferDest = LiFiTransferDestinationSide.load(transferId)
   if (lifiTransferDest) {
     let lifiSwap = new LiFiSwap(transferId)
+    lifiSwap.timestamp = event.block.timestamp
     lifiTransferDest.destinationSwap = lifiSwap.id
+    lifiSwap.save()
     lifiTransferDest.save()
   }
 
@@ -232,6 +232,3 @@ export function handleAssetSwapped(event: AssetSwapped): void {
 
   swap.save()
 }
-
-//LifiSwap is swap only
-//Swap is part of transaction
