@@ -1,8 +1,6 @@
 import { Address, Bytes, dataSource, log } from '@graphprotocol/graph-ts'
-import { LiFiTransferCompleted, LiFiTransferStarted, LiFiSwappedGeneric } from '../generated/LiFiDiamond/LiFiDiamond'
-import { LiFiTransfer, User, LiFiSwap } from '../generated/schema'
-
-const serverSigner = Address.fromString('0x997f29174a766A1DA04cf77d135d59Dd12FB54d1')
+import { LiFiTransferCompleted, LiFiTransferStarted, LiFiSwappedGeneric, AssetSwapped } from '../generated/LiFiDiamond/LiFiDiamond'
+import { LiFiTransfer, User, LiFiSwap, Swap, LiFiTransferDestinationSide } from '../generated/schema'
 
 function parseChainId(network: string): i32 {
   let chainId = 0
@@ -142,15 +140,27 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 export function handleLiFiTransferCompleted(event: LiFiTransferCompleted): void {
   const transferId = event.params.transactionId.toHex()
 
-  let lifiTransfer = LiFiTransfer.load(transferId)
+  let lifiTransfer = LiFiTransferDestinationSide.load(transferId)
     if (lifiTransfer == null) {
-      lifiTransfer = new LiFiTransfer(transferId)
+      lifiTransfer = new LiFiTransferDestinationSide(transferId)
     }
 
-  lifiTransfer.transferCompletedTimestamp = event.params.timestamp
+  const toAddress = event.params.receiver
+  let toUser = User.load(toAddress.toHex())
+  if (toUser == null) {
+      toUser = new User(toAddress.toHex())
+      toUser.address = toAddress
+      toUser.save()
+  }
+
+
+  //toUser
+  lifiTransfer.toUser = toUser.id
+  lifiTransfer.timestamp = event.params.timestamp
   lifiTransfer.toAddress = event.params.receiver
-  lifiTransfer.receivingAssetId = event.params.receivingAssetId
+  lifiTransfer.toTokenAddress = event.params.receivingAssetId
   lifiTransfer.toAmount = event.params.amount
+  lifiTransfer.timestamp = event.block.timestamp
 
   // save changes
   lifiTransfer.save()
@@ -162,7 +172,18 @@ export function handleLiFiTransferCompleted(event: LiFiTransferCompleted): void 
 export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
   const transferId = event.params.transactionId.toHex()
 
-  //is this always a new swap?
+  let _Swap = Swap.load(transferId)
+  if (!_Swap) {
+    _Swap = new Swap(transferId)
+  }
+
+  _Swap.fromTokenAddress = event.params.fromAssetId
+  _Swap.toTokenAddress = event.params.toAssetId
+  _Swap.fromAmount = event.params.fromAmount
+  _Swap.toAmount = event.params.toAmount
+  _Swap.timestamp = event.block.timestamp
+
+
   let lifiSwap = LiFiSwap.load(transferId)
   
   if (lifiSwap == null) {
@@ -171,11 +192,45 @@ export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
 
   lifiSwap.integrator = event.params.integrator
   lifiSwap.referrer = event.params.referrer
-  lifiSwap.fromAssetId = event.params.fromAssetId
-  lifiSwap.toAssetId = event.params.toAssetId
-  lifiSwap.fromAmount = event.params.fromAmount
-  lifiSwap.toAmount = event.params.toAmount
+  lifiSwap.swap = _Swap.id
 
   //save changes
   lifiSwap.save()
 }
+
+export function handleAssetSwapped(event: AssetSwapped): void {
+  const transferId = event.params.transactionId.toHex()
+
+  let lifiTransfer = LiFiTransfer.load(transferId)
+
+  if (lifiTransfer) {
+    //const isSender = !!lifiTransfer.bridge
+    let lifiSwap = new LiFiSwap(transferId)
+    lifiTransfer.sourceSwap = lifiSwap.id
+    lifiTransfer.save()
+  }
+
+  let lifiTransferDest = LiFiTransferDestinationSide.load(transferId)
+  if (lifiTransferDest) {
+    let lifiSwap = new LiFiSwap(transferId)
+    lifiTransferDest.destinationSwap = lifiSwap.id
+    lifiTransferDest.save()
+  }
+
+  let _Swap = Swap.load(transferId)
+  if (!_Swap) {
+    _Swap = new Swap(transferId)
+  }
+
+  _Swap.dex = event.params.dex
+  _Swap.fromTokenAddress = event.params.fromAssetId
+  _Swap.toTokenAddress = event.params.toAssetId
+  _Swap.fromAmount = event.params.fromAmount
+  _Swap.toAmount = event.params.toAmount
+  _Swap.timestamp = event.params.timestamp
+
+  _Swap.save()
+}
+
+//LifiSwap is swap only
+//Swap is part of transaction
