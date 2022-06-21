@@ -36,6 +36,7 @@ type LiFiTransferDestinationSide @entity {
   toUser: User!
   toAddress: Bytes!
   toTokenAddress: Bytes!
+  transactionHash: Bytes!
   toAmount: BigInt!
   destinationSwap: Swap
 }
@@ -43,11 +44,12 @@ type LiFiTransferDestinationSide @entity {
 type Swap @entity {
   id: ID!,
   dex: Bytes!
-  fromTokenAddress: Bytes!,
-  toTokenAddress: Bytes!,
-  fromAmount: BigInt!,
-  toAmount: BigInt!,
-  timestamp: BigInt!,
+  transactionHash: Bytes!
+  fromTokenAddress: Bytes!
+  toTokenAddress: Bytes!
+  fromAmount: BigInt!
+  toAmount: BigInt!
+  timestamp: BigInt!
 }
 
 type LiFiSwap @entity {
@@ -55,6 +57,9 @@ type LiFiSwap @entity {
   integrator: String!
   referrer: Bytes!
   timestamp: BigInt!
+  fromUser: User
+  toUser: User
+  transactionHash: Bytes!
   swap: Swap!
 }
 
