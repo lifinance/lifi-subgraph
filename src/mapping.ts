@@ -172,16 +172,16 @@ export function handleLiFiTransferCompleted(event: LiFiTransferCompleted): void 
 export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
   const transferId = event.params.transactionId.toHex()
 
-  let _Swap = Swap.load(transferId)
-  if (!_Swap) {
-    _Swap = new Swap(transferId)
+  let swap = Swap.load(transferId)
+  if (!swap) {
+    swap = new Swap(transferId)
   }
 
-  _Swap.fromTokenAddress = event.params.fromAssetId
-  _Swap.toTokenAddress = event.params.toAssetId
-  _Swap.fromAmount = event.params.fromAmount
-  _Swap.toAmount = event.params.toAmount
-  _Swap.timestamp = event.block.timestamp
+  swap.fromTokenAddress = event.params.fromAssetId
+  swap.toTokenAddress = event.params.toAssetId
+  swap.fromAmount = event.params.fromAmount
+  swap.toAmount = event.params.toAmount
+  swap.timestamp = event.block.timestamp
 
 
   let lifiSwap = LiFiSwap.load(transferId)
@@ -192,9 +192,10 @@ export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
 
   lifiSwap.integrator = event.params.integrator
   lifiSwap.referrer = event.params.referrer
-  lifiSwap.swap = _Swap.id
+  lifiSwap.swap = swap.id
 
   //save changes
+  swap.save()
   lifiSwap.save()
 }
 
@@ -217,19 +218,19 @@ export function handleAssetSwapped(event: AssetSwapped): void {
     lifiTransferDest.save()
   }
 
-  let _Swap = Swap.load(transferId)
-  if (!_Swap) {
-    _Swap = new Swap(transferId)
+  let swap = Swap.load(transferId)
+  if (!swap) {
+    swap = new Swap(transferId)
   }
 
-  _Swap.dex = event.params.dex
-  _Swap.fromTokenAddress = event.params.fromAssetId
-  _Swap.toTokenAddress = event.params.toAssetId
-  _Swap.fromAmount = event.params.fromAmount
-  _Swap.toAmount = event.params.toAmount
-  _Swap.timestamp = event.params.timestamp
+  swap.dex = event.params.dex
+  swap.fromTokenAddress = event.params.fromAssetId
+  swap.toTokenAddress = event.params.toAssetId
+  swap.fromAmount = event.params.fromAmount
+  swap.toAmount = event.params.toAmount
+  swap.timestamp = event.params.timestamp
 
-  _Swap.save()
+  swap.save()
 }
 
 //LifiSwap is swap only

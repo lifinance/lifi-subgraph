@@ -27,8 +27,6 @@ type LiFiTransfer @entity {
   referrer: Bytes!
   transactionHash: Bytes!
 
-  receivingAssetId: Bytes!
-
   sourceSwap: Swap
 }
 
@@ -39,7 +37,7 @@ type LiFiTransferDestinationSide @entity {
   toAddress: Bytes!
   toTokenAddress: Bytes!
   toAmount: BigInt!
-  destinationSwap: DestinationSwap
+  destinationSwap: Swap
 }
 
 type Swap @entity {
@@ -65,13 +63,4 @@ type User @entity {
   address: Bytes!
   sentTransfers: [LiFiTransfer!]! @derivedFrom(field: "fromUser")
   receivedTransfers: [LiFiTransfer!]! @derivedFrom(field: "toUser")
-}
-
-type DestinationSwap @entity {
-  id: ID!
-  transactionHash: Bytes!
-
-  swapExchangeAddress: Bytes
-  swapTokenAddress: Bytes
-  swapFromAmount: BigInt
 }
