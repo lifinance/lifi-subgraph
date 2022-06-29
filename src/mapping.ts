@@ -128,6 +128,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
     lifiTransfer.gasPrice = event.transaction.gasPrice
     lifiTransfer.transactionHash = event.transaction.hash
     lifiTransfer.timestamp = event.block.timestamp
+    lifiTransfer.block = event.block.number
 
     // save changes
     lifiTransfer.save()
@@ -163,6 +164,7 @@ export function handleLiFiTransferCompleted(event: LiFiTransferCompleted): void 
   lifiTransfer.toAmount = event.params.amount
   lifiTransfer.timestamp = event.block.timestamp
   lifiTransfer.transactionHash = event.transaction.hash
+  lifiTransfer.block = event.block.number
 
   // save changes
   lifiTransfer.save()

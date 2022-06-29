@@ -22,6 +22,10 @@
     "prepare:mor": "mustache config/mor.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:opt": "mustache config/opt.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:pol": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:fus": "mustache config/fus.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:moo": "mustache config/moo.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:one": "mustache config/one.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:cel": "mustache config/cel.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
 
     "deploy:arb": "yarn prepare:arb && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-arb",
@@ -33,7 +37,11 @@
     "deploy:mor": "yarn prepare:mor && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-mor",
     "deploy:opt": "yarn prepare:opt && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-opt",
     "deploy:pol": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-pol",
-    "deploy:all": "yarn deploy:arb && yarn deploy:ava && yarn deploy:bsc && yarn deploy:dai && yarn deploy:eth && yarn deploy:ftm && yarn deploy:mor && yarn deploy:opt && yarn deploy:pol"
+    "deploy:fus": "yarn prepare:fus && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fus",
+    "deploy:moo": "yarn prepare:moo && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-moo",
+    "deploy:one": "yarn prepare:one && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-one",
+    "deploy:cel": "yarn prepare:cel && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-cel",
+    "deploy:all": "yarn deploy:arb && yarn deploy:ava && yarn deploy:bsc && yarn deploy:dai && yarn deploy:eth && yarn deploy:ftm && yarn deploy:mor && yarn deploy:opt && yarn deploy:pol && yarn deploy:fus && yarn deploy:moo && yarn deploy:one && yarn deploy:cel"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.26.0",

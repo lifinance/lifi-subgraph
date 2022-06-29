@@ -26,6 +26,7 @@ type LiFiTransfer @entity {
   integrator: String!
   referrer: Bytes!
   transactionHash: Bytes!
+  block: BigInt!
 
   sourceSwap: Swap
 }
@@ -39,6 +40,7 @@ type LiFiTransferDestinationSide @entity {
   transactionHash: Bytes!
   toAmount: BigInt!
   destinationSwap: Swap
+  block: BigInt!
 }
 
 type Swap @entity {
