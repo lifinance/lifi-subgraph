@@ -14,9 +14,9 @@ export function handleFeesCollected(event: FeesCollected): void {
     toUser.save();
   }
 
-  let token = TokenBalance.load(tokenAddress.toHex());
+  let token = TokenBalance.load(tokenAddress.toHex().concat(toAddress.toHex()));
   if (token == null) {
-    token = new TokenBalance(tokenAddress.toHex());
+    token = new TokenBalance(tokenAddress.toHex().concat(toAddress.toHex()));
     token.address = tokenAddress;
     token.integrator = toUser.id;
     token.save();

@@ -9,5 +9,5 @@ type TokenBalance @entity {
 type Integrator @entity {
     id: ID!
     address: Bytes!
-    balances: [TokenBalance!]! @derivedFrom(field: "integrator")
+    tokens: [TokenBalance!]! @derivedFrom(field: "integrator")
 }
