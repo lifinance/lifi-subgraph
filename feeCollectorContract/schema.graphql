@@ -1,0 +1,13 @@
+type TokenBalance @entity {
+    id: ID!
+    address: Bytes!
+    integrator: Integrator!
+    balance: BigInt!
+    totalCollected: BigInt!
+}
+
+type Integrator @entity {
+    id: ID!
+    address: Bytes!
+    balances: [TokenBalance!]! @derivedFrom(field: "integrator")
+}

@@ -1,6 +1,6 @@
 import { dataSource, log } from '@graphprotocol/graph-ts'
-import { LiFiTransferCompleted, LiFiTransferStarted, LiFiSwappedGeneric, AssetSwapped } from '../generated/LiFiDiamond/LiFiDiamond'
-import { LiFiTransfer, User, LiFiSwap, Swap, LiFiTransferDestinationSide } from '../generated/schema'
+import { AssetSwapped, LiFiSwappedGeneric, LiFiTransferCompleted, LiFiTransferStarted } from '../generated/LiFiDiamond/LiFiDiamond'
+import { LiFiSwap, LiFiTransfer, LiFiTransferDestinationSide, Swap, User } from '../generated/schema'
 
 function parseChainId(network: string): i32 {
   let chainId = 0

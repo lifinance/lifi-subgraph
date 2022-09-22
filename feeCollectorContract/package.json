@@ -1,0 +1,26 @@
+{
+  "name": "lifi-graph",
+  "license": "UNLICENSED",
+  "scripts": {
+    "prepare": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy  --product hosted-service lifinance/lifi-develop",
+    "develop": "yarn prepare && yarn codegen && yarn build && yarn deploy",
+    "test": "graph test lifi",
+
+    "create-local": "graph create --node http://localhost:8020/ lifinance/lifi-develop",
+    "remove-local": "graph remove --node http://localhost:8020/ lifinance/lifi-develop",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 lifinance/lifi-develop",
+
+    "prepare:pol": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
+
+    "deploy:pol": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-pol"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.26.0",
+    "@graphprotocol/graph-ts": "0.24.1",
+    "matchstick-as": "0.3.0",
+    "mustache": "^4.2.0"
+  }
+}
