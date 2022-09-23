@@ -4,6 +4,8 @@ type TokenBalance @entity {
     integrator: Integrator!
     balance: BigInt!
     totalCollected: BigInt!
+    feeCollectionsCount: Int!
+    feeWithdrawalCount: Int!
 }
 
 type Integrator @entity {

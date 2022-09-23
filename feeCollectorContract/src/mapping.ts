@@ -23,6 +23,7 @@ export function handleFeesCollected(event: FeesCollected): void {
   }
   token.totalCollected = token.totalCollected.plus(event.params._integratorFee);
   token.balance = token.balance.plus(event.params._integratorFee);
+  token.feeCollectionsCount = token.feeCollectionsCount + 1;
   token.save();
 }
 export function handleFeesWithdrawn(event: FeesWithdrawn): void {
@@ -35,14 +36,15 @@ export function handleFeesWithdrawn(event: FeesWithdrawn): void {
     toUser.save();
   }
 
-  let token = TokenBalance.load(tokenAddress.toHex());
+  let token = TokenBalance.load(tokenAddress.toHex().concat(toAddress.toHex()));
   if (token == null) {
-    token = new TokenBalance(tokenAddress.toHex());
+    token = new TokenBalance(tokenAddress.toHex().concat(toAddress.toHex()));
     token.address = tokenAddress;
     token.integrator = toUser.id;
     token.save();
   }
 
   token.balance = token.balance.minus(event.params._amount);
+  token.feeWithdrawalCount = token.feeWithdrawalCount + 1;
   token.save();
 }
