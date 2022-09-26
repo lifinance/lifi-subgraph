@@ -4,3 +4,4 @@ node_modules
 subgraph.yaml
 --access-token
 .bin
+yarn-error.log
