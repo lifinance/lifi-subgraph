@@ -1,3 +1,4 @@
+import { Address } from "@graphprotocol/graph-ts";
 import {
   FeesCollected,
   FeesWithdrawn
@@ -5,21 +6,18 @@ import {
 import { Integrator, TokenBalance } from "../generated/schema";
 
 export function handleFeesCollected(event: FeesCollected): void {
-  const toAddress = event.params._integrator;
+  const integratorAddress = event.params._integrator;
   const tokenAddress = event.params._token;
-  let toUser = Integrator.load(toAddress.toHex());
-  if (toUser == null) {
-    toUser = new Integrator(toAddress.toHex());
-    toUser.address = toAddress;
-    toUser.save();
+  let integrator = Integrator.load(integratorAddress.toHex());
+  if (integrator == null) {
+    integrator = createNewIntegrator(integratorAddress);
   }
 
-  let token = TokenBalance.load(tokenAddress.toHex().concat(toAddress.toHex()));
+  let token = TokenBalance.load(
+    tokenAddress.toHex().concat(integratorAddress.toHex()),
+  );
   if (token == null) {
-    token = new TokenBalance(tokenAddress.toHex().concat(toAddress.toHex()));
-    token.address = tokenAddress;
-    token.integrator = toUser.id;
-    token.save();
+    token = createNewToken(tokenAddress, integrator);
   }
   token.totalCollected = token.totalCollected.plus(event.params._integratorFee);
   token.balance = token.balance.plus(event.params._integratorFee);
@@ -27,24 +25,40 @@ export function handleFeesCollected(event: FeesCollected): void {
   token.save();
 }
 export function handleFeesWithdrawn(event: FeesWithdrawn): void {
-  const toAddress = event.params._to;
+  const integratorAddress = event.params._to;
   const tokenAddress = event.params._token;
-  let toUser = Integrator.load(toAddress.toHex());
-  if (toUser == null) {
-    toUser = new Integrator(toAddress.toHex());
-    toUser.address = toAddress;
-    toUser.save();
+  let integrator = Integrator.load(integratorAddress.toHex());
+  if (integrator == null) {
+    integrator = createNewIntegrator(integratorAddress);
   }
 
-  let token = TokenBalance.load(tokenAddress.toHex().concat(toAddress.toHex()));
+  let token = TokenBalance.load(
+    tokenAddress.toHex().concat(integratorAddress.toHex()),
+  );
   if (token == null) {
-    token = new TokenBalance(tokenAddress.toHex().concat(toAddress.toHex()));
-    token.address = tokenAddress;
-    token.integrator = toUser.id;
-    token.save();
+    token = createNewToken(tokenAddress, integrator);
   }
 
   token.balance = token.balance.minus(event.params._amount);
-  token.feeWithdrawalCount = token.feeWithdrawalCount + 1;
+  token.feeWithdrawalsCount = token.feeWithdrawalsCount + 1;
   token.save();
 }
+
+const createNewToken = (tokenAddress: Address, integrator: Integrator): TokenBalance => {
+  let token = new TokenBalance(
+    tokenAddress.toHex().concat(integrator.address.toHex()),
+  );
+  token.address = tokenAddress;
+  token.integrator = integrator.id;
+  token.save();
+
+  return token;
+};
+
+const createNewIntegrator = (integratorAddress: Address): Integrator => {
+  let integrator = new Integrator(integratorAddress.toHex());
+  integrator.address = integratorAddress;
+  integrator.save();
+
+  return integrator;
+};

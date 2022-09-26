@@ -45,7 +45,7 @@
     "deploy:one": "yarn prepare:one && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-one",
     "deploy:opt": "yarn prepare:opt && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-opt",
     "deploy:pol": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-pol",
-    "deploy:all": "yarn deploy:arb && yarn deploy:aur && yarn deploy:ava && yarn deploy:bob && yarn deploy:bsc && yarn deploy:cel && yarn deploy:cro && yarn deploy:dai && yarn deploy:eth && yarn deploy:evm && yarn deploy:ftm && yarn deploy:fus && yarn deploy:hec && yarn deploy:moo && yarn deploy:mor && yarn deploy:okt && yarn deploy:one && yarn deploy:opt && yarn deploy:pol"
+    "deploy:all": "yarn deploy:arb && yarn deploy:aur && yarn deploy:ava && yarn deploy:bob && yarn deploy:bsc && yarn deploy:cel && yarn deploy:dai && yarn deploy:eth && yarn deploy:ftm && yarn deploy:fus && yarn deploy:moo && yarn deploy:mor && yarn deploy:one && yarn deploy:opt && yarn deploy:pol"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.26.0",
