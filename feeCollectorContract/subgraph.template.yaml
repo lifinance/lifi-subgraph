@@ -1,0 +1,27 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: FeeCollector
+    network: {{network}}
+    source:
+      address: "{{address}}"
+      abi: FeeCollector
+      startBlock: {{startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Integrator
+        - TokenBalance
+      abis:
+        - name: FeeCollector
+          file: ./abi/FeeCollector.json
+      eventHandlers:
+        - event: FeesCollected(indexed address,indexed address,uint256,uint256)
+          handler: handleFeesCollected
+        - event: FeesWithdrawn(indexed address,indexed address,uint256)
+          handler: handleFeesWithdrawn
+      file: ./src/mapping.ts

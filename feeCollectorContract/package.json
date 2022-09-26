@@ -1,0 +1,56 @@
+{
+  "name": "lifi-graph",
+  "license": "UNLICENSED",
+  "scripts": {
+    "prepare": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy  --product hosted-service lifinance/lifi-develop",
+    "develop": "yarn prepare && yarn codegen && yarn build && yarn deploy",
+    "test": "graph test lifi",
+
+    "create-local": "graph create --node http://localhost:8020/ lifinance/lifi-develop",
+    "remove-local": "graph remove --node http://localhost:8020/ lifinance/lifi-develop",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 lifinance/lifi-develop",
+
+    "prepare:arb": "mustache config/arb.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:aur": "mustache config/aur.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ava": "mustache config/ava.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:bob": "mustache config/bob.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:bsc": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:cel": "mustache config/cel.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:dai": "mustache config/dai.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:eth": "mustache config/eth.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ftm": "mustache config/ftm.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:fus": "mustache config/fus.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:moo": "mustache config/moo.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:mor": "mustache config/mor.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:one": "mustache config/one.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:opt": "mustache config/opt.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:pol": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
+
+    "deploy:arb": "yarn prepare:arb && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-arb",
+    "deploy:aur": "yarn prepare:aur && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-aur",
+    "deploy:ava": "yarn prepare:ava && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-ava",
+    "deploy:bob": "yarn prepare:bob && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-bob",
+    "deploy:bsc": "yarn prepare:bsc && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-bsc",
+    "deploy:cel": "yarn prepare:cel && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-cel",
+    "deploy:dai": "yarn prepare:dai && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-dai",
+    "deploy:eth": "yarn prepare:eth && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-eth",
+    "deploy:ftm": "yarn prepare:ftm && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-ftm",
+    "deploy:fus": "yarn prepare:fus && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-fus",
+    "deploy:moo": "yarn prepare:moo && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-moo",
+    "deploy:mor": "yarn prepare:mor && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-mor",
+    "deploy:one": "yarn prepare:one && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-one",
+    "deploy:opt": "yarn prepare:opt && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-opt",
+    "deploy:pol": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-fee-collection-pol",
+    "deploy:all": "yarn deploy:arb && yarn deploy:aur && yarn deploy:ava && yarn deploy:bob && yarn deploy:bsc && yarn deploy:cel && yarn deploy:dai && yarn deploy:eth && yarn deploy:ftm && yarn deploy:fus && yarn deploy:moo && yarn deploy:mor && yarn deploy:one && yarn deploy:opt && yarn deploy:pol"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.26.0",
+    "@graphprotocol/graph-ts": "0.24.1",
+    "matchstick-as": "0.3.0",
+    "mustache": "^4.2.0"
+  }
+}
