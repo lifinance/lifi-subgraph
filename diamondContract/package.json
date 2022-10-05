@@ -47,7 +47,6 @@
   "dependencies": {
     "@graphprotocol/graph-cli": "0.26.0",
     "@graphprotocol/graph-ts": "0.24.1",
-    "ethers": "^5.7.1",
     "matchstick-as": "0.3.0",
     "mustache": "^4.2.0"
   }
