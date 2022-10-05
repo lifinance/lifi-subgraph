@@ -82,7 +82,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   let fromUser = User.load(fromAddress.toHex())
   if (fromUser == null) {
     fromUser = new User(fromAddress.toHex())
-    fromUser.address = fromAddress
+    fromUser.address = fromAddress.toHex()
     fromUser.save()
   }
 
