@@ -1,6 +1,8 @@
 import { dataSource, log } from '@graphprotocol/graph-ts'
 import { AssetSwapped, LiFiSwappedGeneric, LiFiTransferCompleted, LiFiTransferStarted } from '../generated/LiFiDiamond/LiFiDiamond'
 import { LiFiSwap, LiFiTransfer, LiFiTransferDestinationSide, Swap, User } from '../generated/schema'
+import { BridgeData } from './mapping.types'
+
 
 function parseChainId(network: string): i32 {
   let chainId = 0
@@ -69,69 +71,71 @@ function parseChainId(network: string): i32 {
 /*
 * @param event - The contract event to update the subgraph record with
 */
+
 export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
-  const bridge = event.params.bridge
+  const string = String.fromCharCode(...event.params.bridgeData)
+  const bridgeData: BridgeData = JSON.parse(string)
 
   // fromAddress
-    const fromAddress = event.transaction.from
-    let fromUser = User.load(fromAddress.toHex())
-    if (fromUser == null) {
-      fromUser = new User(fromAddress.toHex())
-      fromUser.address = fromAddress
-      fromUser.save()
-    }
+  const fromAddress = event.transaction.from
+  let fromUser = User.load(fromAddress.toHex())
+  if (fromUser == null) {
+    fromUser = new User(fromAddress.toHex())
+    fromUser.address = fromAddress
+    fromUser.save()
+  }
 
-    // toAddress
-    const toAddress = event.params.receiver
-    let toUser = User.load(toAddress.toHex())
-    if (toUser == null) {
-      toUser = new User(toAddress.toHex())
-      toUser.address = toAddress
-      toUser.save()
-    }
+  // toAddress
+  const toAddress = bridgeData.receiver
+  let toUser = User.load(toAddress)
+  if (toUser == null) {
+    toUser = new User(toAddress)
+    toUser.address = toAddress
+    toUser.save()
+  }
 
-    // parse fromChainId
-    let network = dataSource.network()
-    let chainId = parseChainId(network)
+  // parse fromChainId
+  let network = dataSource.network()
+  let chainId = parseChainId(network)
 
-    // load or create entity for transactionId
-    let transferId = event.params.transactionId.toHex()
-    let lifiTransfer = LiFiTransfer.load(transferId)
-    if (lifiTransfer == null) {
-      lifiTransfer = new LiFiTransfer(transferId)
-    }
+  // load or create entity for transactionId
+  let transferId = bridgeData.transactionId
+  let lifiTransfer = LiFiTransfer.load(transferId)
+  if (lifiTransfer == null) {
+    lifiTransfer = new LiFiTransfer(transferId)
+  }
 
-    let swap = Swap.load(transferId)
-    if (swap) lifiTransfer.sourceSwap = swap.id
+  let swap = Swap.load(transferId)
+  if (swap) lifiTransfer.sourceSwap = swap.id
 
-    // store event data in entity
-    lifiTransfer.fromAddress = fromAddress
-    lifiTransfer.fromUser = fromUser.id
-    lifiTransfer.fromTokenAddress = event.params.sendingAssetId
-    lifiTransfer.fromAmount = event.params.amount
-    lifiTransfer.fromChainId = chainId
+  // store event data in entity
+  lifiTransfer.fromAddress = fromAddress
+  lifiTransfer.fromUser = fromUser.id
+  lifiTransfer.fromTokenAddress = bridgeData.sendingAssetId
+  lifiTransfer.fromAmount = bridgeData.minAmount
+  lifiTransfer.fromChainId = chainId
 
-    lifiTransfer.toAddress = toAddress
-    lifiTransfer.toUser = toUser.id
-    lifiTransfer.toTokenAddress = event.params.receivingAssetId
-    lifiTransfer.toChainId = event.params.destinationChainId.toI32()
+  lifiTransfer.toAddress = toAddress
+  lifiTransfer.toUser = toUser.id //receiver
+  //lifiTransfer.toTokenAddress = event.params.receivingAssetId
+  lifiTransfer.toChainId = bridgeData.destinationChainId
 
-    lifiTransfer.hasSourceSwap = event.params.hasSourceSwap
-    lifiTransfer.hasDestinationCall = event.params.hasDestinationCall
-    lifiTransfer.hasServerSign = lifiTransfer.hasServerSign || false
+  lifiTransfer.hasSourceSwap = bridgeData.hasSourceSwap
+  lifiTransfer.hasDestinationCall = bridgeData.hasDestinationCall
+  lifiTransfer.hasServerSign = lifiTransfer.hasServerSign || false
 
-    lifiTransfer.bridge = bridge
-    lifiTransfer.integrator = event.params.integrator
-    lifiTransfer.referrer = event.params.referrer
-    lifiTransfer.gasLimit = event.transaction.gasLimit
-    lifiTransfer.gasPrice = event.transaction.gasPrice
-    lifiTransfer.transactionHash = event.transaction.hash
-    lifiTransfer.timestamp = event.block.timestamp
-    lifiTransfer.block = event.block.number
+  lifiTransfer.bridge = bridgeData.bridge
+  lifiTransfer.integrator = bridgeData.integrator
+  lifiTransfer.referrer = bridgeData.referrer
+  lifiTransfer.gasLimit = event.transaction.gasLimit
+  lifiTransfer.gasPrice = event.transaction.gasPrice
+  lifiTransfer.transactionHash = event.transaction.hash
+  lifiTransfer.timestamp = event.block.timestamp
+  lifiTransfer.block = event.block.number
 
-    // save changes
-    lifiTransfer.save()
+  // save changes
+  lifiTransfer.save()
 }
 
 /*
@@ -149,7 +153,7 @@ export function handleLiFiTransferCompleted(event: LiFiTransferCompleted): void 
   let toUser = User.load(toAddress.toHex())
   if (toUser == null) {
       toUser = new User(toAddress.toHex())
-      toUser.address = toAddress
+      toUser.address = toAddress.toHex()
       toUser.save()
   }
 
@@ -192,7 +196,7 @@ export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
   let fromUser = User.load(fromAddress.toHex())
   if (fromUser == null) {
       fromUser = new User(fromAddress.toHex())
-      fromUser.address = fromAddress
+      fromUser.address = fromAddress.toHex()
       fromUser.save()
     }
 
