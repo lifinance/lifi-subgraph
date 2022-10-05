@@ -2,6 +2,7 @@ import { dataSource, log } from '@graphprotocol/graph-ts'
 import { AssetSwapped, LiFiSwappedGeneric, LiFiTransferCompleted, LiFiTransferStarted } from '../generated/LiFiDiamond/LiFiDiamond'
 import { LiFiSwap, LiFiTransfer, LiFiTransferDestinationSide, Swap, User } from '../generated/schema'
 import { BridgeData } from './mapping.types'
+import { utils } from 'ethers'
 
 
 function parseChainId(network: string): i32 {
@@ -74,7 +75,7 @@ function parseChainId(network: string): i32 {
 
 export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
-  const string = String.fromCharCode(...event.params.bridgeData)
+  const string = utils.parseBytes32String(event.params.bridgeData)
   const bridgeData: BridgeData = JSON.parse(string)
 
   // fromAddress
