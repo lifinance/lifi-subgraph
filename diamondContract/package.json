@@ -27,6 +27,7 @@
     "prepare:bob": "mustache config/bob.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:aur": "mustache config/aur.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:test": "yarn prepare:arb && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ sebastianboehler/lifi-pol",
     "deploy:arb": "yarn prepare:arb && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-arb",
     "deploy:ava": "yarn prepare:ava && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-ava",
     "deploy:bsc": "yarn prepare:bsc && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-bsc",
@@ -45,8 +46,8 @@
     "deploy:all": "yarn deploy:arb && yarn deploy:ava && yarn deploy:bsc && yarn deploy:dai && yarn deploy:eth && yarn deploy:ftm && yarn deploy:mor && yarn deploy:opt && yarn deploy:pol && yarn deploy:fus && yarn deploy:moo && yarn deploy:one && yarn deploy:cel && yarn deploy:bob && yarn deploy:aur"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.26.0",
-    "@graphprotocol/graph-ts": "0.24.1",
+    "@graphprotocol/graph-cli": "^0.34.0",
+    "@graphprotocol/graph-ts": "^0.28.0",
     "matchstick-as": "0.3.0",
     "mustache": "^4.2.0"
   }
