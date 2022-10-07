@@ -121,7 +121,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   lifiTransfer.fromChainId = chainId
 
   lifiTransfer.toAddress = toAddress
-  lifiTransfer.toUser = toUser.id //receiver
+  lifiTransfer.toUser = bridgeData.mustGet('receiver').toString() //receiver
   //lifiTransfer.toTokenAddress = event.params.receivingAssetId
   lifiTransfer.toChainId = bridgeData.mustGet('destinationChainId').toBigInt().toI32()
 
