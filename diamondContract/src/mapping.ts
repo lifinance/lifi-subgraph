@@ -73,9 +73,13 @@ function parseChainId(network: string): i32 {
 
 export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
-  const parsedBytes = json.fromBytes(event.params.bridgeData)
-  //parse raw bytes into BridgeData object
-  const bridgeData = parsedBytes.toObject()
+  const result = json.try_fromBytes(event.params.bridgeData)
+  if (result.isError) {
+    log.error('Failed to parse bridgeData', [])
+    return
+  } 
+
+  const bridgeData = result.value.toObject()
 
   // fromAddress
   const fromAddress = event.transaction.from
