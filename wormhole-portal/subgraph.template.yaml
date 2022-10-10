@@ -1,0 +1,26 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: {{network}}
+    source:
+      address: '{{address}}'
+      abi: Contract
+      startBlock: {{startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AdminChanged
+        - BeaconUpgraded
+        - Upgraded
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      callHandlers:
+        - function: completeTransfer(bytes)
+          handler: handleCompleteTransfer
+      file: ./src/contract.ts

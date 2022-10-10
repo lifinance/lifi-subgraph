@@ -1,0 +1,8 @@
+type CompleteTransfer @entity {
+  id: ID!
+  txHash: Bytes!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  encodedVm: Bytes!
+}
