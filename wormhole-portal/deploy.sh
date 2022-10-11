@@ -14,8 +14,8 @@ do
         echo "!!! failed to deploy ${allChains[$i]}"
         echo "exiting..."
         exit 1;
-    else
-    then 
-        counter = counter + 1;
+    else 
+        ((counter++))
     fi
+    echo "deployed ${counter} / ${numChains}"
 done

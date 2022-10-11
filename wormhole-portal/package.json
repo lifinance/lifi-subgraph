@@ -9,7 +9,7 @@
     "prepare:ava": "mustache config/ava.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:bsc": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:cel": "mustache config/cel.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:fmt": "mustache config/fmt.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ftm": "mustache config/ftm.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:moo": "mustache config/moo.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:pol": "mustache config/pol.prod.json subgraph.template.yaml > subgraph.yaml",
     "deploy:eth": "yarn prepare:eth && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xksure/wormhole-portal",
