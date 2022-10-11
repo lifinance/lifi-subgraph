@@ -242,7 +242,7 @@
             "name": "hasDestinationCall",
             "type": "bool"
         }],
-        "indexed": true,
+        "indexed": false,
         "internalType": "struct ILiFi.BridgeData",
         "name": "bridgeData",
         "type": "tuple"

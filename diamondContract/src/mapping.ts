@@ -1,7 +1,6 @@
 import { dataSource, log } from '@graphprotocol/graph-ts'
 import { AssetSwapped, LiFiSwappedGeneric, LiFiTransferCompleted, LiFiTransferStarted } from '../generated/LiFiDiamond/LiFiDiamond'
 import { LiFiSwap, LiFiTransfer, LiFiTransferDestinationSide, Swap, User } from '../generated/schema'
-import { json } from '@graphprotocol/graph-ts'
 
 function parseChainId(network: string): i32 {
   let chainId = 0
@@ -73,13 +72,8 @@ function parseChainId(network: string): i32 {
 
 export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
-  const result = json.try_fromBytes(event.params.bridgeData)
-  if (result.isError) {
-    log.error('Failed to parse bridgeData', [])
-    return
-  } 
-
-  const bridgeData = result.value.toObject()
+  if (!event.params || !event.params.bridgeData) return
+  const bridgeData = event.params.bridgeData
 
   // fromAddress
   const fromAddress = event.transaction.from
@@ -91,7 +85,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   }
 
   // toAddress
-  const toAddress = bridgeData.mustGet('receiver').toString()
+  const toAddress = bridgeData.receiver.toHexString()
   let toUser = User.load(toAddress)
   if (toUser == null) {
     toUser = new User(toAddress)
@@ -104,7 +98,7 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   let chainId = parseChainId(network)
 
   // load or create entity for transactionId
-  let transferId = bridgeData.mustGet('transactionId').toString()
+  let transferId = bridgeData.transactionId.toHexString()
   let lifiTransfer = LiFiTransfer.load(transferId)
   if (lifiTransfer == null) {
     lifiTransfer = new LiFiTransfer(transferId)
@@ -116,22 +110,21 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   // store event data in entity
   lifiTransfer.fromAddress = fromAddress
   lifiTransfer.fromUser = fromUser.id
-  lifiTransfer.fromTokenAddress = bridgeData.mustGet('sendingAssetId').toString()
-  lifiTransfer.fromAmount = bridgeData.mustGet('minAmount').toString()
+  lifiTransfer.fromTokenAddress = bridgeData.sendingAssetId.toHexString()
+  lifiTransfer.fromAmount = bridgeData.minAmount
   lifiTransfer.fromChainId = chainId
 
   lifiTransfer.toAddress = toAddress
-  lifiTransfer.toUser = bridgeData.mustGet('receiver').toString() //receiver
-  //lifiTransfer.toTokenAddress = event.params.receivingAssetId
-  lifiTransfer.toChainId = bridgeData.mustGet('destinationChainId').toBigInt().toI32()
+  lifiTransfer.toUser = bridgeData.receiver.toHexString()
+  lifiTransfer.toChainId = bridgeData.destinationChainId.toI32()
 
-  lifiTransfer.hasSourceSwap = bridgeData.mustGet('hasSourceSwap').toBool()
-  lifiTransfer.hasDestinationCall = bridgeData.mustGet('hastDestinationCall').toBool()
-  lifiTransfer.hasServerSign = lifiTransfer.hasServerSign || false
+  lifiTransfer.hasSourceSwap = bridgeData.hasSourceSwaps
+  lifiTransfer.hasDestinationCall = bridgeData.hasDestinationCall
+  //lifiTransfer.hasServerSign = lifiTransfer.hasServerSign || false
 
-  lifiTransfer.bridge = bridgeData.mustGet('bridge').toString()
-  lifiTransfer.integrator = bridgeData.mustGet('integrator').toString()
-  lifiTransfer.referrer = bridgeData.mustGet('referrer').toString()
+  lifiTransfer.bridge = bridgeData.bridge
+  lifiTransfer.integrator = bridgeData.integrator
+  lifiTransfer.referrer = bridgeData.referrer.toHexString()
   lifiTransfer.gasLimit = event.transaction.gasLimit
   lifiTransfer.gasPrice = event.transaction.gasPrice
   lifiTransfer.transactionHash = event.transaction.hash
