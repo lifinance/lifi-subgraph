@@ -13,7 +13,6 @@ export function handleCompleteTransfer(call: CompleteTransferCall): void {
   const transfer = new CompleteTransfer(call.transaction.hash.toString());
   const toAddress = call.transaction.to;
   const amount = call.transaction.value;
-
   transfer.txHash = call.transaction.hash;
   transfer.encodedVm = call.inputValues[0].value.toBytes();
   transfer.from = call.transaction.from;
@@ -21,6 +20,7 @@ export function handleCompleteTransfer(call: CompleteTransferCall): void {
     transfer.to = toAddress;
   }
   transfer.value = amount;
-
+  transfer.timestamp = call.block.timestamp;
+  transfer.blockNumber = call.block.number;
   transfer.save();
 }

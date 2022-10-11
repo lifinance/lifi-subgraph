@@ -5,4 +5,6 @@ type CompleteTransfer @entity {
   to: Bytes!
   value: BigInt!
   encodedVm: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
 }
