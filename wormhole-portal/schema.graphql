@@ -1,10 +1,10 @@
 type CompleteTransfer @entity {
   id: ID!
   txHash: Bytes!
-  from: Bytes!
-  to: Bytes!
-  value: BigInt!
+  from: Bytes
+  to: Bytes
   encodedVm: Bytes!
   timestamp: BigInt!
   blockNumber: BigInt!
+  chainId: Int!
 }
