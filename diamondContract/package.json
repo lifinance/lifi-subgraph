@@ -27,7 +27,6 @@
     "prepare:bob": "mustache config/bob.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:aur": "mustache config/aur.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
-    "deploy:test": "yarn prepare:pol && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ sebastianboehler/lifi-pol",
     "deploy:arb": "yarn prepare:arb && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-arb",
     "deploy:ava": "yarn prepare:ava && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-ava",
     "deploy:bsc": "yarn prepare:bsc && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-bsc",

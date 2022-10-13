@@ -26,11 +26,11 @@ dataSources:
         - name: LiFiDiamond
           file: ./abis/LiFiDiamond.json
       eventHandlers:
-        - event: LiFiTransferStarted(indexed bytes32,string,string,string,address,address,address,address,uint256,uint256,bool,bool)
+        - event: LiFiTransferStarted((bytes32,string,string,address,address,address,uint256,uint256,bool,bool))
           handler: handleLiFiTransferStarted
         - event: LiFiTransferCompleted(indexed bytes32,address,address,uint256,uint256)
           handler: handleLiFiTransferCompleted
-        - event: LiFiSwappedGeneric(indexed bytes32,string,address,address,address,uint256,uint256)
+        - event: LiFiSwappedGeneric(indexed bytes32,string,string,address,address,uint256,uint256)
           handler: handleLiFiSwappedGeneric
         - event: AssetSwapped(bytes32,address,address,address,uint256,uint256,uint256)
           handler: handleAssetSwapped
