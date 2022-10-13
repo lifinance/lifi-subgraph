@@ -8,9 +8,11 @@
     "deploy": "graph deploy  --product hosted-service lifinance/lifi-develop",
     "develop": "yarn prepare && yarn codegen && yarn build && yarn deploy",
     "test": "graph test lifi",
+
     "create-local": "graph create --node http://localhost:8020/ lifinance/lifi-develop",
     "remove-local": "graph remove --node http://localhost:8020/ lifinance/lifi-develop",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 lifinance/lifi-develop",
+
     "prepare:arb": "mustache config/arb.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:ava": "mustache config/ava.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:bsc": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
@@ -27,6 +29,7 @@
     "prepare:bob": "mustache config/bob.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:aur": "mustache config/aur.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
+    
     "deploy:arb": "yarn prepare:arb && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-arb",
     "deploy:ava": "yarn prepare:ava && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-ava",
     "deploy:bsc": "yarn prepare:bsc && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ lifinance/lifi-bsc",

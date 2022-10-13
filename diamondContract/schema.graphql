@@ -6,7 +6,7 @@ type LiFiTransfer @entity {
   fromAddress: Bytes!
   fromAmount: BigInt!
   fromChainId: Int!
-  fromTokenAddress: String
+  fromTokenAddress: Bytes!
 
   toUser: User!
   toAddress: Bytes!
