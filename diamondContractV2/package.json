@@ -8,6 +8,7 @@
     "deploy": "graph deploy  --product hosted-service lifinance/lifi-develop",
     "develop": "yarn prepare && yarn codegen && yarn build && yarn deploy",
     "test": "graph test lifi",
+    "test-win": "graph test lifi --d",
     "create-local": "graph create --node http://localhost:8020/ lifinance/lifi-develop",
     "remove-local": "graph remove --node http://localhost:8020/ lifinance/lifi-develop",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 lifinance/lifi-develop",
@@ -22,7 +23,7 @@
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.34.0",
     "@graphprotocol/graph-ts": "^0.28.0",
-    "matchstick-as": "0.3.0",
+    "matchstick-as": "0.5.0",
     "mustache": "^4.2.0"
   }
 }
