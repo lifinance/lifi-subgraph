@@ -1,0 +1,74 @@
+type LiFiTransfer @entity {
+  id: ID!
+  bridge: String
+
+  fromUser: User!
+  fromAddress: Bytes!
+  fromAmount: BigInt
+  fromChainId: Int!
+  fromTokenAddress: String
+
+  toUser: User
+  toAddress: String!
+  toChainId: Int
+  toTokenAddress: Bytes
+  toAmount: BigInt
+
+  hasSourceSwap: Boolean
+  hasDestinationCall: Boolean
+  hasServerSign: Boolean
+
+  gasLimit: BigInt!
+  gasPrice: BigInt!
+
+  timestamp: BigInt!
+
+  integrator: String
+  referrer: String
+  transactionHash: Bytes!
+  block: BigInt!
+
+  sourceSwap: Swap
+}
+
+type LiFiTransferDestinationSide @entity {
+  id: ID!
+  timestamp: BigInt!
+  toUser: User!
+  toAddress: Bytes!
+  toTokenAddress: Bytes!
+  transactionHash: Bytes!
+  toAmount: BigInt!
+  destinationSwap: Swap
+  block: BigInt!
+}
+
+type Swap @entity {
+  id: ID!,
+  dex: Bytes!
+  transactionHash: Bytes!
+  fromTokenAddress: Bytes!
+  toTokenAddress: Bytes!
+  fromAmount: BigInt!
+  toAmount: BigInt!
+  timestamp: BigInt!
+}
+
+type LiFiSwap @entity {
+  id: ID!
+  integrator: String!
+  referrer: String!
+  timestamp: BigInt!
+  fromUser: User
+  toUser: User
+  transactionHash: Bytes!
+  swap: Swap!
+}
+
+# User entity keeps track of related transactions
+type User @entity {
+  id: ID!
+  address: String!
+  sentTransfers: [LiFiTransfer!]! @derivedFrom(field: "fromUser")
+  receivedTransfers: [LiFiTransfer!]! @derivedFrom(field: "toUser")
+}

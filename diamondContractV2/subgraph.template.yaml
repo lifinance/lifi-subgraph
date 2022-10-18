@@ -1,0 +1,73 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: LiFiDiamond
+    network: {{network}}
+    source:
+      address: "{{address}}"
+      abi: LiFiDiamond
+      startBlock: {{startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - LiFiTransferStarted
+        - LiFiTransferCompleted
+        - NXTPBridgeStarted
+        - LiquidityRemoved
+        - AssetSwapped
+        - DiamondCut
+        - OwnershipTransferred
+        - LogWithdraw
+      abis:
+        - name: LiFiDiamond
+          file: ./abis/LiFiDiamond.json
+      eventHandlers:
+        - event: LiFiTransferStarted((bytes32,string,string,address,address,address,uint256,uint256,bool,bool))
+          handler: handleLiFiTransferStarted
+        - event: LiFiTransferCompleted(indexed bytes32,address,address,uint256,uint256)
+          handler: handleLiFiTransferCompleted
+        - event: LiFiSwappedGeneric(indexed bytes32,string,string,address,address,uint256,uint256)
+          handler: handleLiFiSwappedGeneric
+        - event: AssetSwapped(bytes32,address,address,address,uint256,uint256,uint256)
+          handler: handleAssetSwapped
+        # - event: NXTPBridgeStarted(indexed bytes32,bytes32,(address,address,address,address,address,address,address,address,address,bytes32,bytes32,uint256,uint256,uint256,uint256,uint256))
+        # handler: handleNXTPBridgeStarted
+        # - event: DiamondCut((address,uint8,bytes4[])[],address,bytes)
+        # - event: Inited(indexed address,uint64)
+        # - event: LiFiTransferCompleted(indexed bytes32,address,address,uint256,uint256)
+        # - event: LiFiTransferConfirmed(indexed bytes32,string,address,address,address,address,uint256,uint256,uint256)
+        # - event: LiFiTransferRefunded(indexed bytes32,string,address,address,address,address,uint256,uint256,uint256)
+        # - event: LogWithdraw(indexed address,address,uint256)
+        # - event: OwnershipTransferred(indexed address,indexed address)
+      # callHandlers:
+        # - function: changeBiconomyRouter(address)
+        # - function: changeWormholeRouter(address)
+        # - function: completeBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),address,address,uint256)
+        # - function: diamondCut((address,uint8,bytes4[])[],address,bytes)
+        # - function: initBiconomy(address)
+        # - function: initCbridge(address,uint64)
+        # - function: initHop(string[],(address,address,address)[],uint256)
+        # - function: initNXTP(address)
+        # - function: initWormhole(address)
+        # - function: startBridgeTokensGeneric((bytes32,string,address,address,address,address,uint256,uint256),(uint256,address,address,bytes))
+        # - function: startBridgeTokensViaAnyswap((bytes32,string,address,address,address,address,uint256,uint256),(address,address,uint256,address,uint256))
+        # - function: startBridgeTokensViaBiconomy((bytes32,string,address,address,address,address,uint256,uint256),(address,uint256,address,uint256))
+        # - function: startBridgeTokensViaCBridge((bytes32,string,address,address,address,address,uint256,uint256),(address,address,uint256,uint64,uint64,uint32))
+        # - function: startBridgeTokensViaHop((bytes32,string,address,address,address,address,uint256,uint256),(string,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256))
+        # - function: startBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),((address,address,address,address,address,address,address,address,address,uint256,uint256,bytes32,bytes32),uint256,uint256,bytes,bytes,bytes,bytes))
+        # - function: startBridgeTokensViaWormhole((bytes32,string,address,address,address,address,uint256,uint256),(address,uint256,address,uint16,uint32))
+        # - function: swapAndCompleteBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],address,address)
+        # - function: swapAndStartBridgeTokensGeneric((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(uint256,address,address,bytes))
+        # - function: swapAndStartBridgeTokensViaAnyswap((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,address,uint256,address,uint256))
+        # - function: swapAndStartBridgeTokensViaBiconomy((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,uint256,address,uint256))
+        # - function: swapAndStartBridgeTokensViaCBridge((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,address,uint256,uint64,uint64,uint32))
+        # - function: swapAndStartBridgeTokensViaHop((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(string,address,uint256,uint256,uint256,uint256,uint256,uint256,uint256))
+        # - function: swapAndStartBridgeTokensViaNXTP((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],((address,address,address,address,address,address,address,address,address,uint256,uint256,bytes32,bytes32),uint256,uint256,bytes,bytes,bytes,bytes))
+        # - function: swapAndStartBridgeTokensViaWormhole((bytes32,string,address,address,address,address,uint256,uint256),(address,address,address,address,uint256,bytes)[],(address,uint256,address,uint16,uint32))
+        # - function: transferOwnership(address)
+        # - function: withdraw(address,address,uint256)
+      file: ./src/mapping.ts
