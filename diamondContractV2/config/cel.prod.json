@@ -1,5 +1,5 @@
 {
-  "network": "bsc",
+  "network": "celo",
   "address": "0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae",
-  "startBlock": 22255013
+  "startBlock": 15686586
 }
