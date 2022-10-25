@@ -18,7 +18,7 @@
     "prepare:ava": "mustache config/ava.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:bob": "mustache config/bob.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:bsc": "mustache config/bsc.prod.json subgraph.template.yaml > subgraph.yaml",
-    "prepate:cel": "mustache config/cel.prod.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:cel": "mustache config/cel.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:dai": "mustache config/dai.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:eth": "mustache config/eth.prod.json subgraph.template.yaml > subgraph.yaml",
     "prepare:ftm": "mustache config/ftm.prod.json subgraph.template.yaml > subgraph.yaml",
