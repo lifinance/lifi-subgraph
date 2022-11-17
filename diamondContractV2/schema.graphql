@@ -45,7 +45,7 @@ type LiFiTransferDestinationSide @entity {
 
 type Swap @entity {
   id: ID!,
-  dex: Bytes!
+  dex: Bytes
   transactionHash: Bytes!
   fromTokenAddress: Bytes!
   toTokenAddress: Bytes!
