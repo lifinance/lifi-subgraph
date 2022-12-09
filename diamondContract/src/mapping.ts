@@ -186,7 +186,7 @@ export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
   swap.fromAmount = event.params.fromAmount
   swap.toAmount = event.params.toAmount
   swap.timestamp = event.block.timestamp
-  swap.transactionHash = event.transaction.hash
+  swap.transactionHash = event.params.transactionId
 
   const fromAddress = event.params.fromAssetId
   let fromUser = User.load(fromAddress.toHex())
@@ -245,7 +245,7 @@ export function handleAssetSwapped(event: AssetSwapped): void {
   swap.fromAmount = event.params.fromAmount
   swap.toAmount = event.params.toAmount
   swap.timestamp = event.params.timestamp
-  swap.transactionHash = event.transaction.hash
+  swap.transactionHash = event.params.transactionId
 
   swap.save()
 }
