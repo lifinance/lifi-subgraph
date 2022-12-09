@@ -16,7 +16,7 @@ type LiFiTransfer @entity {
 
   hasSourceSwap: Boolean!
   hasDestinationCall: Boolean!
-  hasServerSign: Boolean!
+  hasServerSign: Boolean
 
   gasLimit: BigInt!
   gasPrice: BigInt!
