@@ -28,6 +28,7 @@ type LiFiTransfer @entity {
   transactionHash: Bytes!
   block: BigInt!
 
+  sourceSwap: Swap
   sourceSwaps: [Swap!] @derivedFrom(field: "lifiTransfer")
 }
 
@@ -64,6 +65,7 @@ type LiFiSwap @entity {
   fromUser: User
   toUser: User
   transactionHash: Bytes!
+  swap: Swap!
   swaps: [Swap!]! @derivedFrom(field: "lifiSwap")
 }
 

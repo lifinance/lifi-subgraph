@@ -116,6 +116,12 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   if (lifiTransfer == null) {
     lifiTransfer = new LiFiTransfer(transferId)
   }
+  // Old handling
+  // Search for the first swap
+  let swap = Swap.load(`${transferId}_0`)
+  if (swap) {
+    lifiTransfer.sourceSwap = swap.id
+  }
 
   // store event data in entity
   lifiTransfer.fromAddress = fromAddress
@@ -156,6 +162,8 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
 /*
  * @param event - The contract event to update the subgraph record with
+ * This event emits by Executor contract, needs to be removed and created
+ * the new subgraph if needed
  */
 export function handleLiFiTransferCompleted(
   event: LiFiTransferCompleted
@@ -227,6 +235,13 @@ export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
     }
   }
 
+  // Old handling
+  // Search for the first swap
+  let swap = Swap.load(`${transferId}_0`)
+  if (swap) {
+    lifiSwap.swap = swap.id
+  }
+
   lifiSwap.save()
 }
 
@@ -250,6 +265,10 @@ export function handleAssetSwapped(event: AssetSwapped): void {
 
   let lifiTransfer = LiFiTransfer.load(transferId)
   if (lifiTransfer) {
+    // Old handling
+    lifiTransfer.sourceSwap = swap.id
+    lifiTransfer.save()
+
     swap.lifiTransfer = lifiTransfer.id
   }
 
@@ -261,6 +280,10 @@ export function handleAssetSwapped(event: AssetSwapped): void {
 
   let lifiSwap = LiFiSwap.load(transferId)
   if (lifiSwap) {
+    // Old handling
+    lifiSwap.swap = swap.id
+    lifiSwap.save()
+
     swap.lifiSwap = lifiSwap.id
   }
 
