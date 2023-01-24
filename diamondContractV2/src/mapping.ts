@@ -1,6 +1,20 @@
 import { dataSource, log } from '@graphprotocol/graph-ts'
-import { AssetSwapped, LiFiSwappedGeneric, LiFiTransferCompleted, LiFiTransferStarted } from '../generated/LiFiDiamond/LiFiDiamond'
-import { LiFiSwap, LiFiTransfer, LiFiTransferDestinationSide, Swap, User } from '../generated/schema'
+import {
+  AssetSwapped,
+  LiFiSwappedGeneric,
+  LiFiTransferCompleted,
+  LiFiTransferStarted,
+} from '../generated/LiFiDiamond/LiFiDiamond'
+import {
+  LiFiSwap,
+  LiFiTransfer,
+  LiFiTransferDestinationSide,
+  Swap,
+  User,
+} from '../generated/schema'
+
+// If we support more than 2 swaps in tx, change this number
+const MAX_SWAPS_COUNT = 2
 
 function parseChainId(network: string): i32 {
   let chainId = 0
@@ -67,11 +81,10 @@ function parseChainId(network: string): i32 {
 }
 
 /*
-* @param event - The contract event to update the subgraph record with
-*/
+ * @param event - The contract event to update the subgraph record with
+ */
 
 export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
-
   if (!event.params || !event.params.bridgeData) return
   const bridgeData = event.params.bridgeData
 
@@ -103,9 +116,12 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   if (lifiTransfer == null) {
     lifiTransfer = new LiFiTransfer(transferId)
   }
-
-  let swap = Swap.load(transferId)
-  if (swap) lifiTransfer.sourceSwap = swap.id
+  // Old handling
+  // Search for the first swap
+  let swap = Swap.load(`${transferId}_0`)
+  if (swap) {
+    lifiTransfer.sourceSwap = swap.id
+  }
 
   // store event data in entity
   lifiTransfer.fromAddress = fromAddress
@@ -131,27 +147,40 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   lifiTransfer.timestamp = event.block.timestamp
   lifiTransfer.block = event.block.number
 
+  for (let i = 0; i < MAX_SWAPS_COUNT; i++) {
+    let swapUniqueId = `${transferId}_${i}`
+    let swap = Swap.load(swapUniqueId)
+    if (swap) {
+      swap.lifiTransfer = transferId
+      swap.save()
+    }
+  }
+
   // save changes
   lifiTransfer.save()
 }
 
 /*
-* @param event - The contract event to update the subgraph record with
-*/
-export function handleLiFiTransferCompleted(event: LiFiTransferCompleted): void {
+ * @param event - The contract event to update the subgraph record with
+ * This event emits by Executor contract, needs to be removed and created
+ * the new subgraph if needed
+ */
+export function handleLiFiTransferCompleted(
+  event: LiFiTransferCompleted
+): void {
   const transferId = event.params.transactionId.toHex()
 
   let lifiTransfer = LiFiTransferDestinationSide.load(transferId)
-    if (lifiTransfer == null) {
-      lifiTransfer = new LiFiTransferDestinationSide(transferId)
-    }
+  if (lifiTransfer == null) {
+    lifiTransfer = new LiFiTransferDestinationSide(transferId)
+  }
 
   const toAddress = event.params.receiver
   let toUser = User.load(toAddress.toHex())
   if (toUser == null) {
-      toUser = new User(toAddress.toHex())
-      toUser.address = toAddress.toHex()
-      toUser.save()
+    toUser = new User(toAddress.toHex())
+    toUser.address = toAddress.toHex()
+    toUser.save()
   }
 
   let swap = Swap.load(transferId)
@@ -172,33 +201,21 @@ export function handleLiFiTransferCompleted(event: LiFiTransferCompleted): void 
 }
 
 /*
-* @param event - The contract event to update the subgraph record with
-*/
+ * @param event - The contract event to update the subgraph record with
+ */
 export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
   const transferId = event.params.transactionId.toHex()
-
-  let swap = Swap.load(transferId)
-  if (!swap) {
-    swap = new Swap(transferId)
-  }
-
-  swap.transactionHash = event.transaction.hash
-  swap.fromTokenAddress = event.params.fromAssetId
-  swap.toTokenAddress = event.params.toAssetId
-  swap.fromAmount = event.params.fromAmount
-  swap.toAmount = event.params.toAmount
-  swap.timestamp = event.block.timestamp
 
   const fromAddress = event.params.fromAssetId
   let fromUser = User.load(fromAddress.toHex())
   if (fromUser == null) {
-      fromUser = new User(fromAddress.toHex())
-      fromUser.address = fromAddress.toHex()
-      fromUser.save()
-    }
+    fromUser = new User(fromAddress.toHex())
+    fromUser.address = fromAddress.toHex()
+    fromUser.save()
+  }
 
   let lifiSwap = LiFiSwap.load(transferId)
-  
+
   if (lifiSwap == null) {
     lifiSwap = new LiFiSwap(transferId)
   }
@@ -208,25 +225,51 @@ export function handleLiFiSwappedGeneric(event: LiFiSwappedGeneric): void {
   lifiSwap.timestamp = event.block.timestamp
   lifiSwap.fromUser = fromUser.id
   lifiSwap.transactionHash = event.transaction.hash
-  lifiSwap.swap = swap.id
 
-  //save changes
-  swap.save()
+  for (let i = 0; i < MAX_SWAPS_COUNT; i++) {
+    let swapUniqueId = `${transferId}_${i}`
+    let swap = Swap.load(swapUniqueId)
+    if (swap) {
+      swap.lifiSwap = transferId
+      swap.save()
+    }
+  }
+
+  // Old handling
+  // Search for the first swap
+  let swap = Swap.load(`${transferId}_0`)
+  if (swap) {
+    lifiSwap.swap = swap.id
+  }
+
   lifiSwap.save()
 }
 
 export function handleAssetSwapped(event: AssetSwapped): void {
   const transferId = event.params.transactionId.toHex()
-
-  let swap = Swap.load(transferId)
-  if (!swap) {
-    swap = new Swap(transferId)
+  // Try to load first swap
+  let swapUniqueId = `${transferId}_0`
+  let swap = Swap.load(swapUniqueId)
+  if (swap) {
+    for (let i = 1; i < MAX_SWAPS_COUNT; i++) {
+      swapUniqueId = `${transferId}_${i}`
+      swap = Swap.load(swapUniqueId)
+      if (!swap) {
+        swap = new Swap(swapUniqueId)
+        break
+      }
+    }
+  } else {
+    swap = new Swap(`${transferId}_0`)
   }
 
   let lifiTransfer = LiFiTransfer.load(transferId)
   if (lifiTransfer) {
+    // Old handling
     lifiTransfer.sourceSwap = swap.id
     lifiTransfer.save()
+
+    swap.lifiTransfer = lifiTransfer.id
   }
 
   let lifiTransferDestinationSide = LiFiTransferDestinationSide.load(transferId)
@@ -237,8 +280,11 @@ export function handleAssetSwapped(event: AssetSwapped): void {
 
   let lifiSwap = LiFiSwap.load(transferId)
   if (lifiSwap) {
+    // Old handling
     lifiSwap.swap = swap.id
     lifiSwap.save()
+
+    swap.lifiSwap = lifiSwap.id
   }
 
   swap.dex = event.params.dex

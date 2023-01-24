@@ -29,6 +29,7 @@ type LiFiTransfer @entity {
   block: BigInt!
 
   sourceSwap: Swap
+  sourceSwaps: [Swap!] @derivedFrom(field: "lifiTransfer")
 }
 
 type LiFiTransferDestinationSide @entity {
@@ -44,7 +45,7 @@ type LiFiTransferDestinationSide @entity {
 }
 
 type Swap @entity {
-  id: ID!,
+  id: ID!
   dex: Bytes
   transactionHash: Bytes!
   fromTokenAddress: Bytes!
@@ -52,6 +53,8 @@ type Swap @entity {
   fromAmount: BigInt!
   toAmount: BigInt!
   timestamp: BigInt!
+  lifiSwap: LiFiSwap
+  lifiTransfer: LiFiTransfer
 }
 
 type LiFiSwap @entity {
@@ -63,6 +66,7 @@ type LiFiSwap @entity {
   toUser: User
   transactionHash: Bytes!
   swap: Swap!
+  swaps: [Swap!]! @derivedFrom(field: "lifiSwap")
 }
 
 # User entity keeps track of related transactions
