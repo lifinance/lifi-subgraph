@@ -21,9 +21,10 @@ type FeeCollectionEvent @entity {
   integratorFee: BigInt!
   lifiFee: BigInt!
   tokenAddress: Bytes!
+  lifiBalance: LiFiBalance!
 }
 
 type LiFiBalance @entity {
   id: ID!
-  collectionEvents: [FeeCollectionEvent!]!
+  collectionEvents: [FeeCollectionEvent!]! @derivedFrom(field: "lifiBalance")
 }
