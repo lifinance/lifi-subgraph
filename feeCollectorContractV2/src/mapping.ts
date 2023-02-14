@@ -3,7 +3,7 @@ import {
   FeesCollected,
   FeesWithdrawn
 } from "../generated/FeeCollector/FeeCollector";
-import { Integrator, TokenBalance } from "../generated/schema";
+import { FeeCollectionEvent, Integrator, TokenBalance } from "../generated/schema";
 
 export function handleFeesCollected(event: FeesCollected): void {
   const integratorAddress = event.params._integrator;
@@ -11,11 +11,21 @@ export function handleFeesCollected(event: FeesCollected): void {
   let integrator = getIntegrator(integratorAddress)
 
   let token = getToken(tokenAddress, integrator)
-  
+
   token.totalCollected = token.totalCollected.plus(event.params._integratorFee);
   token.balance = token.balance.plus(event.params._integratorFee);
   token.feeCollectionsCount = token.feeCollectionsCount + 1;
   token.save();
+
+  const feeCollectionEvent = new FeeCollectionEvent(
+    event.transaction.hash.toHex()
+  )
+  feeCollectionEvent.timestamp = event.block.timestamp;
+  feeCollectionEvent.integrator = integrator.id;
+  feeCollectionEvent.integratorFee = event.params._integratorFee;
+  feeCollectionEvent.lifiFee = event.params._lifiFee;
+  feeCollectionEvent.tokenAddress = tokenAddress;
+  feeCollectionEvent.save();
 }
 export function handleFeesWithdrawn(event: FeesWithdrawn): void {
   const integratorAddress = event.params._to;
