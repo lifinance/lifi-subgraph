@@ -3,9 +3,7 @@ import {
   FeesCollected,
   FeesWithdrawn
 } from "../generated/FeeCollector/FeeCollector";
-import { FeeCollectionEvent, Integrator, LiFiBalance, TokenBalance } from "../generated/schema";
-
-new LiFiBalance('').save()
+import { FeeCollectionEvent, Integrator, TokenBalance } from "../generated/schema";
 
 export function handleFeesCollected(event: FeesCollected): void {
   const integratorAddress = event.params._integrator;
@@ -27,7 +25,6 @@ export function handleFeesCollected(event: FeesCollected): void {
   feeCollectionEvent.integratorFee = event.params._integratorFee;
   feeCollectionEvent.lifiFee = event.params._lifiFee;
   feeCollectionEvent.tokenAddress = tokenAddress;
-  feeCollectionEvent.lifiBalance = ''
   feeCollectionEvent.save();
 }
 export function handleFeesWithdrawn(event: FeesWithdrawn): void {
