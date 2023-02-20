@@ -1,15 +1,24 @@
 type TokenBalance @entity {
-    id: ID!
-    address: Bytes!
-    integrator: Integrator!
-    balance: BigInt!
-    totalCollected: BigInt!
-    feeCollectionsCount: Int!
-    feeWithdrawalsCount: Int!
+  id: ID!
+  address: Bytes!
+  integrator: Integrator!
+  balance: BigInt!
+  totalCollected: BigInt!
+  feeCollectionsCount: Int!
+  feeWithdrawalsCount: Int!
 }
 
 type Integrator @entity {
-    id: ID!
-    address: Bytes!
-    tokens: [TokenBalance!]! @derivedFrom(field: "integrator")
+  id: ID!
+  address: Bytes!
+  tokens: [TokenBalance!]! @derivedFrom(field: "integrator")
+}
+
+type FeeCollectionEvent @entity {
+  id: ID!
+  timestamp: BigInt!
+  integrator: Integrator!
+  integratorFee: BigInt!
+  lifiFee: BigInt!
+  tokenAddress: Bytes!
 }
