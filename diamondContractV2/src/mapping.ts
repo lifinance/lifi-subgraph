@@ -132,7 +132,10 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
 
   lifiTransfer.toAddress = toAddress
   lifiTransfer.toUser = bridgeData.receiver.toHexString()
-  lifiTransfer.toChainId = bridgeData.destinationChainId.toI32()
+
+  if (bridgeData.destinationChainId.isI32()) {
+    lifiTransfer.toChainId = bridgeData.destinationChainId.toI32()
+  }
 
   lifiTransfer.hasSourceSwap = bridgeData.hasSourceSwaps
   lifiTransfer.hasDestinationCall = bridgeData.hasDestinationCall
