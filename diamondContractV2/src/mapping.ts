@@ -133,9 +133,11 @@ export function handleLiFiTransferStarted(event: LiFiTransferStarted): void {
   lifiTransfer.toAddress = toAddress
   lifiTransfer.toUser = bridgeData.receiver.toHexString()
 
-  if (bridgeData.destinationChainId.isI32()) {
-    lifiTransfer.toChainId = bridgeData.destinationChainId.toI32()
-  }
+  // in some cases with old Solana chain id, the id has more than i32 symbols (1151111081099710)
+  // so it breaks the mapping and the whole subgraph
+  if (!bridgeData.destinationChainId.isI32()) return
+
+  lifiTransfer.toChainId = bridgeData.destinationChainId.toI32()
 
   lifiTransfer.hasSourceSwap = bridgeData.hasSourceSwaps
   lifiTransfer.hasDestinationCall = bridgeData.hasDestinationCall
