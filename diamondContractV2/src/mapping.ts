@@ -14,8 +14,8 @@ import {
   User,
 } from '../generated/schema'
 
-// The tx may contain 3 fee collection events and 1 real swap event
-const MAX_SWAPS_COUNT = 4
+// The tx may contain 3 fee collection events, 1 superfuil, and 1 real swap event
+const MAX_SWAPS_COUNT = 5
 
 function parseChainId(network: string): i32 {
   let chainId = 0
