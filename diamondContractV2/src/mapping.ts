@@ -14,8 +14,8 @@ import {
   User,
 } from '../generated/schema'
 
-// The tx may contain 3 fee collection events, 1 superfuil, and 1 real swap event
-const MAX_SWAPS_COUNT = 5
+// FIXME the all handling will be changed in the scope of https://lifi.atlassian.net/browse/LF-3994
+const MAX_SWAPS_COUNT = 10
 
 function parseChainId(network: string): i32 {
   let chainId = 0
