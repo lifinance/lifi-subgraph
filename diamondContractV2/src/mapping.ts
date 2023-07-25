@@ -1,6 +1,7 @@
 import { dataSource, log } from '@graphprotocol/graph-ts'
 import {
   AssetSwapped,
+  LiFiGenericSwapCompleted,
   LiFiSwappedGeneric,
   LiFiTransferCompleted,
   LiFiTransferStarted,
@@ -13,8 +14,8 @@ import {
   User,
 } from '../generated/schema'
 
-// If we support more than 2 swaps in tx, change this number
-const MAX_SWAPS_COUNT = 2
+// FIXME the all handling will be changed in the scope of https://lifi.atlassian.net/browse/LF-3994
+const MAX_SWAPS_COUNT = 10
 
 function parseChainId(network: string): i32 {
   let chainId = 0
@@ -301,4 +302,64 @@ export function handleAssetSwapped(event: AssetSwapped): void {
   swap.transactionHash = event.transaction.hash
 
   swap.save()
+}
+
+/*
+ * @param event - The contract event to update the subgraph record with
+ */
+export function handleLiFiGenericSwapCompleted(
+  event: LiFiGenericSwapCompleted
+): void {
+  const transferId = event.params.transactionId.toHex()
+
+  // we don't have sender info from subgraph events
+  // in the previous handling we used token address as fromAddress
+  // now we will use receiver address since on BE we know the real sender address
+  // and can easily overwrite it
+  const fromAddress = event.params.receiver
+  let fromUser = User.load(fromAddress.toHex())
+  if (fromUser == null) {
+    fromUser = new User(fromAddress.toHex())
+    fromUser.address = fromAddress.toHex()
+    fromUser.save()
+  }
+
+  const toAddress = event.params.receiver
+  let toUser = User.load(toAddress.toHex())
+  if (toUser == null) {
+    toUser = new User(toAddress.toHex())
+    toUser.address = toAddress.toHex()
+    toUser.save()
+  }
+
+  let lifiSwap = LiFiSwap.load(transferId)
+
+  if (lifiSwap == null) {
+    lifiSwap = new LiFiSwap(transferId)
+  }
+
+  lifiSwap.integrator = event.params.integrator
+  lifiSwap.referrer = event.params.referrer
+  lifiSwap.timestamp = event.block.timestamp
+  lifiSwap.fromUser = fromUser.id
+  lifiSwap.transactionHash = event.transaction.hash
+  lifiSwap.toUser = toUser.id
+
+  for (let i = 0; i < MAX_SWAPS_COUNT; i++) {
+    let swapUniqueId = `${transferId}_${i}`
+    let swap = Swap.load(swapUniqueId)
+    if (swap) {
+      swap.lifiSwap = transferId
+      swap.save()
+    }
+  }
+
+  // Old handling
+  // Search for the first swap
+  let swap = Swap.load(`${transferId}_0`)
+  if (swap) {
+    lifiSwap.swap = swap.id
+  }
+
+  lifiSwap.save()
 }
