@@ -1,6 +1,6 @@
 {
   "name": "lifi-graph",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prepare": "mustache config/develop.json subgraph.template.yaml > subgraph.yaml",
     "codegen": "graph codegen",
