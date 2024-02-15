@@ -17,7 +17,6 @@ test('simple', () => {
   )
 
   started.parameters.push(new ethereum.EventParam("transactionId", ethereum.Value.fromString('22')))
-  // ToDo: add more values
 
   // handleLiFiTransferStarted(started)
   
