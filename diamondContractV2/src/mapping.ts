@@ -14,7 +14,6 @@ import {
   User,
 } from '../generated/schema'
 
-// FIXME the all handling will be changed in the scope of https://lifi.atlassian.net/browse/LF-3994
 const MAX_SWAPS_COUNT = 10
 
 function parseChainId(network: string): i32 {
